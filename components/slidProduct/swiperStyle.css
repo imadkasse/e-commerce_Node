@@ -1,0 +1,30 @@
+.swiper {
+  @apply text-black dark:text-white;
+}
+
+.swiper-slide {
+  @apply sm:grid sm:grid-cols-3 xs:flex xs:flex-col xs:gap-7 xs:py-6;
+}
+
+.swiper-slide img {
+  @apply w-full h-[500px];
+}
+.mySwiper {
+  @apply bg-gray-200 dark:bg-gray-600 h-[120vh];
+}
+
+/* تخصيص الزر التالي */
+.swiper-button-next {
+  @apply text-red-400  p-8 bg-white rounded-xl;
+}
+
+/* تخصيص الزر السابق */
+.swiper-button-prev {
+  @apply text-red-400  p-8 bg-white rounded-xl;
+}
+
+/* التأثير عند التمرير فوق الأزرار */
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  @apply text-red-500/70  p-8 bg-white/70 rounded-xl hoverEle;
+}
