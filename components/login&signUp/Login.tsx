@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const Login = () => {
   return (
-    <div className="min-h-screen grid grid-cols-2 bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text ">
+    <div className="min-h-screen grid grid-cols-2 bg-light-background dark:bg-gray-800 text-light-text dark:text-dark-text ">
       <div className="">
         <Image
           src={"/imgs/ecoLogin.jpeg"}

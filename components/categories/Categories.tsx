@@ -1,11 +1,6 @@
 "use client";
 import Image from "next/image";
-import Swiper from "swiper";
-import "swiper/css";
-import "swiper/css/navigation";
-import "./slide.css";
-import { Autoplay, FreeMode, Navigation, Pagination } from "swiper/modules";
-import "swiper/swiper-bundle.css";
+
 import Link from "next/link";
 
 const Categories = () => {
@@ -20,14 +15,62 @@ const Categories = () => {
           href={"/"}
           className="border shadow-44 rounded-xl dark:bg-gray-700 dark:border-gray-400 p-4"
         >
-          <div className="flex flex-col items-center ">
+          <div className="flex flex-col items-center  h-full justify-between">
+            <Image
+              src="/imgs/categoriesImg/Acce.png"
+              alt="imgCate"
+              width={80}
+              height={100}
+            />
+            <h1 className="text-red-400 md:text-xl sm:text-lg font-semibold hoverEle">
+              Accessories
+            </h1>
+          </div>
+        </Link>
+        <Link
+          href={"/"}
+          className="border shadow-44 rounded-xl dark:bg-gray-700 dark:border-gray-400 p-4"
+        >
+          <div className="flex flex-col items-center  h-full justify-between ">
+            <Image
+              src="/imgs/categoriesImg/network.png"
+              alt="imgCate"
+              width={80}
+              height={100}
+            />
+            <h1 className="text-red-400 md:text-xl sm:text-lg font-semibold hoverEle">
+              Networking
+            </h1>
+          </div>
+        </Link>
+        <Link
+          href={"/"}
+          className="border shadow-44 rounded-xl dark:bg-gray-700 dark:border-gray-400 p-4"
+        >
+          <div className="flex flex-col items-center  h-full justify-between">
+            <Image
+              src="/imgs/categoriesImg/computer.png"
+              alt="imgCate"
+              width={80}
+              height={100}
+            />
+            <h1 className="text-red-400 md:text-xl sm:text-lg font-semibold hoverEle">
+              Computers
+            </h1>
+          </div>
+        </Link>
+        <Link
+          href={"/"}
+          className="border shadow-44 rounded-xl dark:bg-gray-700 dark:border-gray-400 p-4"
+        >
+          <div className="flex flex-col items-center  h-full justify-between">
             <Image
               src="/imgs/categoriesImg/phone.png"
               alt="imgCate"
-              width={100}
+              width={80}
               height={100}
             />
-            <h1 className="text-red-400 md:text-2xl sm:text-lg font-semibold hoverEle">
+            <h1 className="text-red-400 md:text-xl sm:text-lg font-semibold hoverEle">
               Phones
             </h1>
           </div>
@@ -36,63 +79,15 @@ const Categories = () => {
           href={"/"}
           className="border shadow-44 rounded-xl dark:bg-gray-700 dark:border-gray-400 p-4"
         >
-          <div className="flex flex-col items-center ">
+          <div className="flex flex-col items-center  h-full justify-between">
             <Image
-              src="/imgs/categoriesImg/phone.png"
+              src="/imgs/categoriesImg/monitors.png"
               alt="imgCate"
-              width={100}
+              width={80}
               height={100}
             />
-            <h1 className="text-red-400 md:text-2xl sm:text-lg font-semibold hoverEle">
-              Phones
-            </h1>
-          </div>
-        </Link>
-        <Link
-          href={"/"}
-          className="border shadow-44 rounded-xl dark:bg-gray-700 dark:border-gray-400 p-4"
-        >
-          <div className="flex flex-col items-center ">
-            <Image
-              src="/imgs/categoriesImg/phone.png"
-              alt="imgCate"
-              width={100}
-              height={100}
-            />
-            <h1 className="text-red-400 md:text-2xl sm:text-lg font-semibold hoverEle">
-              Phones
-            </h1>
-          </div>
-        </Link>
-        <Link
-          href={"/"}
-          className="border shadow-44 rounded-xl dark:bg-gray-700 dark:border-gray-400 p-4"
-        >
-          <div className="flex flex-col items-center ">
-            <Image
-              src="/imgs/categoriesImg/phone.png"
-              alt="imgCate"
-              width={100}
-              height={100}
-            />
-            <h1 className="text-red-400 md:text-2xl sm:text-lg font-semibold hoverEle">
-              Phones
-            </h1>
-          </div>
-        </Link>
-        <Link
-          href={"/"}
-          className="border shadow-44 rounded-xl dark:bg-gray-700 dark:border-gray-400 p-4"
-        >
-          <div className="flex flex-col items-center ">
-            <Image
-              src="/imgs/categoriesImg/phone.png"
-              alt="imgCate"
-              width={100}
-              height={100}
-            />
-            <h1 className="text-red-400 md:text-2xl sm:text-lg font-semibold hoverEle">
-              Phones
+            <h1 className="text-red-400 md:text-xl sm:text-lg font-semibold hoverEle">
+              Monitors
             </h1>
           </div>
         </Link>

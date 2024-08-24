@@ -1,5 +1,5 @@
+"use client";
 import ShoppingCart from "@/components/shoppingCart/ShoppingCart";
-import React from "react";
 
 const page = () => {
   return (
