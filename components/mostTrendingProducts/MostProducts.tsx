@@ -23,7 +23,10 @@ const MostProducts = () => {
         <div className="py-14  grid xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-14 items-center xs:justify-items-center ">
           <div className="w-full max-w-sm bg-white   border-gray-200 rounded-lg  dark:bg-gray-800 dark:border-gray-700">
             <div className="relative">
-              <Link href="/product" className="w-full group ">
+              <Link
+                href={`${soldOut ? "/" : "/product"}`}
+                className="w-full group "
+              >
                 <Image
                   className="p-1 rounded-xl w-full hover:scale-105 hoverEle "
                   src="/imgs/products/prod1.jpg"

@@ -25,7 +25,7 @@ const Headr = () => {
     };
   }, [showMenu, showMenu2]);
   return (
-    <div className="sm:px-9 xs:px-6  bg-[#304C89]   sticky top-0  w-full z-50">
+    <div className="sm:px-9 xs:px-6  bg-[#304C89]   sticky top-0  w-full z-10">
       <div className="flex items-center justify-between relative gap-2">
         <div>
           <div className="ar-dropdown flex relative">
@@ -66,36 +66,36 @@ const Headr = () => {
         </div>
         {showMenu2 && (
           <div className="z-50 absolute rounded-lg  w-[244px] py-4 top-16 flex flex-col gap-2 bg-white shadow dark:bg-gray-700">
-            <div className="hover:bg-red-400 h-10 px-3 flex items-center hoverEle group">
+            <div className="hover:bg-red-400 h-10  flex items-center hoverEle group">
               <Link
-                className="text-black dark:text-white w-full  text-[16px] leading-[1.1] font-[500] group-hover:text-black/60 transition duration-1000"
+                className="  px-3 h-full flex flex-col justify-center  text-black dark:text-white w-full  text-[16px] leading-[1.1] font-[500] group-hover:text-black/60 transition duration-1000"
                 href="/login"
               >
                 Accessories
               </Link>
             </div>
 
-            <div className="hover:bg-red-400 h-10 px-3 flex items-center hoverEle group">
+            <div className="hover:bg-red-400 h-10  flex items-center hoverEle group">
               <Link
-                className="text-black dark:text-white w-full  text-[16px] leading-[1.1] font-[500] group-hover:text-black/60 transition duration-1000"
+                className="px-3 h-full flex flex-col justify-center text-black dark:text-white w-full  text-[16px] leading-[1.1] font-[500] group-hover:text-black/60 transition duration-1000"
                 href="/login"
               >
                 Phones
               </Link>
             </div>
 
-            <div className="hover:bg-red-400 h-10 px-3 flex items-center hoverEle group">
+            <div className="hover:bg-red-400 h-10  flex items-center hoverEle group">
               <Link
-                className="text-black dark:text-white w-full  text-[16px] leading-[1.1] font-[500] group-hover:text-black/60 transition duration-1000"
+                className="px-3 h-full flex flex-col justify-center text-black dark:text-white w-full  text-[16px] leading-[1.1] font-[500] group-hover:text-black/60 transition duration-1000"
                 href="/login"
               >
                 Coumputer
               </Link>
             </div>
 
-            <div className="hover:bg-red-400 h-10 px-3 flex items-center hoverEle group relative">
+            <div className="hover:bg-red-400 h-10  flex items-center hoverEle group relative">
               <Link
-                className="text-black dark:text-white w-full  text-[16px] leading-[1.1] font-[500] group-hover:text-black/60 transition duration-1000"
+                className="px-3 h-full flex flex-col justify-center  text-black dark:text-white w-full  text-[16px] leading-[1.1] font-[500] group-hover:text-black/60 transition duration-1000"
                 href="/login"
               >
                 T-shirt
@@ -119,7 +119,7 @@ const Headr = () => {
           <li className="close lg:hidden">X</li>
           <li className="leading-[1]">
             <Link
-              className="text-[#FFF] hover:text-red-400 text-[16px] leading-[1.1] font-[500]"
+              className="text-[#FFF] hover:text-red-400 text-[16px] font-[500]"
               href="products"
             >
               Accessories
@@ -127,7 +127,7 @@ const Headr = () => {
           </li>
           <li className="leading-[1]">
             <Link
-              className="text-[#FFF] hover:text-red-400 text-[16px] leading-[1.1] font-[500]"
+              className="text-[#FFF] hover:text-red-400 text-[16px] font-[500]"
               href="products"
             >
               Networking
@@ -135,7 +135,7 @@ const Headr = () => {
           </li>
           <li className="leading-[1]">
             <Link
-              className="text-[#FFF] hover:text-red-400 text-[16px] leading-[1.1] font-[500]"
+              className="text-[#FFF] hover:text-red-400 text-[16px] font-[500]"
               href="products"
             >
               Computers
@@ -143,7 +143,7 @@ const Headr = () => {
           </li>
           <li className="leading-[1]">
             <Link
-              className="text-[#FFF] hover:text-red-400 text-[16px] leading-[1.1] font-[500]"
+              className="text-[#FFF] hover:text-red-400 text-[16px] font-[500]"
               href="products"
             >
               Phones
@@ -151,7 +151,7 @@ const Headr = () => {
           </li>
           <li className="leading-[1]">
             <Link
-              className="text-[#FFF] hover:text-red-400 text-[16px] leading-[1.1] font-[500]"
+              className="text-[#FFF] hover:text-red-400 text-[16px] font-[500]"
               href="products"
             >
               Monitors

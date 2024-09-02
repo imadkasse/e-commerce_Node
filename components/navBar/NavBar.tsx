@@ -1,20 +1,16 @@
 "use client";
 import {
-  ArrowForwardIos,
   DarkModeOutlined,
   FavoriteBorderOutlined,
-  KeyboardArrowDown,
   KeyboardArrowUp,
   LightMode,
   ShoppingCartOutlined,
 } from "@mui/icons-material";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useContext, useEffect, useState } from "react";
-import { ThemeContext } from "../ToggleMode/context/Theme";
+import React, { useEffect, useState } from "react";
 
 const NavBar = () => {
-
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [searchMenuValue, setSearchMenuValue] = useState("All Categories");
   const [showSearchMenu, setShowSearchMenu] = useState(false);
@@ -45,7 +41,6 @@ const NavBar = () => {
         setShowSearchMenu(false);
       }
 
-
       if (
         showUserMenu &&
         !(e.target as HTMLElement).closest(".menu-container2")
@@ -59,7 +54,7 @@ const NavBar = () => {
     return () => {
       document.removeEventListener("click", handleOutsideClick);
     };
-  }, [showSearchMenu , showUserMenu]);
+  }, [showSearchMenu, showUserMenu]);
   // const { toggleTheme } = useContext(ThemeContext);
   const toggleTheme = () => {
     setDarkMode(!darkMode);
@@ -241,7 +236,7 @@ const NavBar = () => {
                 </div>
               </Link>
               {user ? (
-                <div className="relative">
+                <div className="relative z-50">
                   <button
                     onClick={() => {
                       setShowUserMenu(!showUserMenu);
@@ -301,8 +296,6 @@ const NavBar = () => {
             </div>
           </div>
         </nav>
-
-        
       </div>
     </header>
   );

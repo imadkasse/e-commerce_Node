@@ -31,6 +31,8 @@ const config: Config = {
           buttonSecondary: "#343A40",
           border: "#333333",
         },
+        stroke: "#E2E8F0",
+        primary: "#3C50E0",
       },
       screens: {
         xs: "330px",
