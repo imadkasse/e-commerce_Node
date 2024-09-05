@@ -1,14 +1,16 @@
+import Explore from "@/components/exploreproducts/Explore";
 import Headr from "@/components/navBar/Headr";
 import NavBar from "@/components/navBar/NavBar";
+import ShowAllProducts from "@/components/products/ShowAllProducts";
 import React from "react";
 
 const page = () => {
   return (
-    <div>
+    <>
       <NavBar />
       <Headr />
-      products
-    </div>
+      <ShowAllProducts />
+    </>
   );
 };
 

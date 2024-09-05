@@ -2,11 +2,31 @@ import {
   AddShoppingCartOutlined,
   LocalMallOutlined,
 } from "@mui/icons-material";
+import { Rating } from "@mui/material";
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const ProductModal = () => {
+interface Id {
+  id: string;
+}
+interface Product {
+  _id: string;
+  name: string;
+  price: number;
+  image: string;
+  description: string;
+  category: string;
+  rating: number;
+}
+
+const ProductModal: React.FC<Id> = async ({ id }) => {
+  const data = await axios.get(
+    `${process.env.BACK_URL}/api/eco/products/${id}`
+  );
+  const product: Product = data.data.data.product;
+
   return (
     <div className="">
       <div className="font-sans  w-full text-light-text dark:text-dark-text  bg-light-background/10 dark:bg-gray-800 ">
@@ -79,81 +99,22 @@ const ProductModal = () => {
 
             <div className="lg:col-span-2">
               <h2 className="text-2xl font-extrabold ">
-                Acer Aspire Pro 12 | Laptop
+                {product.name} | {product.category}
               </h2>
 
               <div className="flex space-x-2 mt-4">
-                <svg
-                  className="w-5 fill-red-400"
-                  viewBox="0 0 14 13"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                </svg>
-                <svg
-                  className="w-5 fill-red-400"
-                  viewBox="0 0 14 13"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                </svg>
-                <svg
-                  className="w-5 fill-red-400"
-                  viewBox="0 0 14 13"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                </svg>
-                <svg
-                  className="w-5 fill-red-400"
-                  viewBox="0 0 14 13"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                </svg>
-                <svg
-                  className="w-5 fill-[#CED5D8]"
-                  viewBox="0 0 14 13"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                </svg>
-                <h4 className=" text-base">500 Reviews</h4>
+                <Rating
+                  className="text-red-400"
+                  name="half-rating-read"
+                  value={product.rating}
+                  precision={0.5}
+                  readOnly
+                />
+                <h4 className=" text-base">{product.rating}</h4>
               </div>
 
               <div className="flex flex-wrap gap-4 mt-8">
-                <p className=" text-3xl font-bold">$1200</p>
-                <p className="text-gray-400 text-base">
-                  $1500
-                  <span className="text-sm ml-1">Tax included</span>
-                </p>
-              </div>
-
-              <div className="mt-8">
-                <h3 className="text-xl font-bold ">Choose a Color</h3>
-                <div className="flex flex-wrap gap-3 mt-4">
-                  <button
-                    type="button"
-                    className="w-10 h-10 bg-black border-2 border-white hover:border-gray-800 rounded-full shrink-0 transition-all"
-                  ></button>
-                  <button
-                    type="button"
-                    className="w-10 h-10 bg-gray-300 border-2 border-white hover:border-gray-800 rounded-full shrink-0 transition-all"
-                  ></button>
-                  <button
-                    type="button"
-                    className="w-10 h-10 bg-gray-100 border-2 border-white hover:border-gray-800 rounded-full shrink-0 transition-all"
-                  ></button>
-                  <button
-                    type="button"
-                    className="w-10 h-10 bg-blue-400 border-2 border-white hover:border-gray-800 rounded-full shrink-0 transition-all"
-                  ></button>
-                </div>
+                <p className=" text-3xl font-bold">${product.price}</p>
               </div>
 
               <div className="flex flex-wrap gap-4 mt-8">
@@ -169,7 +130,7 @@ const ProductModal = () => {
             </div>
           </div>
 
-          <div className="mt-16 shadow-white shadow-sm p-6">
+          {/* <div className="mt-16 shadow-white shadow-sm p-6">
             <h3 className="text-xl font-bold ">Product information</h3>
             <ul className="mt-4 space-y-6 ">
               <li className="text-sm">
@@ -363,7 +324,7 @@ const ProductModal = () => {
                 </button>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

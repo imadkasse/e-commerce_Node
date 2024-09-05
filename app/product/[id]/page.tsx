@@ -3,13 +3,14 @@ import Headr from "@/components/navBar/Headr";
 import NavBar from "@/components/navBar/NavBar";
 import React from "react";
 
-const page = () => {
+const page = ({ params }: { params: any }) => {
+  
   return (
-    <div>
+    <>
       <NavBar />
       <Headr />
-      <ProductModal />
-    </div>
+      <ProductModal id={params.id} />
+    </>
   );
 };
 

@@ -4,9 +4,9 @@ import SideBar from "./SideBar";
 
 const Index = () => {
   return (
-    <div className="sticky top-0 ">
-      <NavBar />
+    <div className="sticky top-0 flex">
       <SideBar />
+      <NavBar />
     </div>
   );
 };

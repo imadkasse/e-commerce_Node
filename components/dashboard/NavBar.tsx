@@ -27,13 +27,22 @@ const NavBar = () => {
       document.removeEventListener("click", handleOutsideClick);
     };
   }, [showUserMenu]);
-  const { isOpen } = useSidebar();
+  const { isOpen, toggleSidebar } = useSidebar();
   return (
-    <header className=" bg-gray-50 border-b  dark:bg-gray-800  flex w-full transition duration-300 h-16 drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none ">
+    <header
+      className={`sticky top-0 z-999 bg-gray-50 border-b  dark:bg-gray-800  flex  w-full transition duration-300 h-16 drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none `}
+    >
       <div className="flex flex-grow items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">
-        <div className="flex items-center gap-2 sm:gap-4 lg:hidden">
+        <div className="flex items-center  md:hidden">
           {/* <!-- Hamburger Toggle BTN --> */}
-
+          <button
+            onClick={toggleSidebar}
+            className="w-16  dark:text-white text-black  p-2 h-[63px] group "
+          >
+            <ArrowForwardOutlined
+              className={`${isOpen ? "group-hover:rotate-180" : ""} hoverEle`}
+            />
+          </button>
           {/* <!-- Hamburger Toggle BTN --> */}
           {/* <Link className="block flex-shrink-0 lg:hidden" href="/">
             <Image width={32} height={32} src={"/imgs/1.png"} alt="Logo" />

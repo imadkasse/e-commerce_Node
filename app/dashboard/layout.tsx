@@ -19,7 +19,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className && " bg-gray-50 dark:bg-gray-800"}>
+      <body
+        className={inter.className && " bg-gray-50 dark:bg-gray-800 h-[5000px]"}
+      >
         <SidebarProvider>
           <NavBar />
           <div className="flex">

@@ -22,7 +22,7 @@ interface Product {
   availability: boolean;
 }
 
-const Explore = async () => {
+const ShowAllProducts = async () => {
   const data = await axios.get(`${process.env.BACK_URL}/api/eco/products`);
   const products: Product[] = data.data.data.products;
 
@@ -145,4 +145,4 @@ const Explore = async () => {
   );
 };
 
-export default Explore;
+export default ShowAllProducts;
