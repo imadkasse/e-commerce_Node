@@ -6,6 +6,9 @@
   .hoverEle {
     @apply transition duration-300 cursor-pointer;
   }
+  .disabled {
+    pointer-events: none;
+  }
 }
 ::selection {
   background-color: transparent; /* اجعل الخلفية شفافة */

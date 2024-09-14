@@ -1,11 +1,29 @@
 "use client";
 import { AddOutlined } from "@mui/icons-material";
+import { Alert, Snackbar, SnackbarCloseReason } from "@mui/material";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const CreateProducts = () => {
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: SnackbarCloseReason
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   const router = useRouter();
   const [toggle, setToggle] = useState(false);
 
@@ -29,6 +47,7 @@ const CreateProducts = () => {
         category: category,
         images: image,
       });
+      handleClick();
       setToggle(false);
       router.refresh();
     } catch (error) {
@@ -37,6 +56,16 @@ const CreateProducts = () => {
   };
   return (
     <div className="py-2 flex justify-end">
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert
+          onClose={handleClose}
+          severity="success"
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          Created Product
+        </Alert>
+      </Snackbar>
       <button
         onClick={() => {
           setToggle(!toggle);

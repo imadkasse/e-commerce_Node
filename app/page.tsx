@@ -9,7 +9,7 @@ import Slide from "@/components/slidProduct/Slide";
 
 export default function Home() {
   return (
-    <main className="">
+    <>
       <NavBar />
       <Headr />
       <Slide />
@@ -18,6 +18,6 @@ export default function Home() {
       <ADS />
       <MostProducts />
       <Footer />
-    </main>
+    </>
   );
 }

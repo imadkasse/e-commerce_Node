@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ToggleMode/context/Theme";
 import NavBar from "@/components/navBar/NavBar";
 import Headr from "@/components/navBar/Headr";
+import UserProvider from "@/components/login&signUp/context/user";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,8 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className && ""}>
         <ThemeProvider>
-
-          {children}
+          <UserProvider>{children}</UserProvider>
         </ThemeProvider>
       </body>
     </html>

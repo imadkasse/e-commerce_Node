@@ -1,23 +1,9 @@
-"use client";
-import {
-  AddOutlined,
-  DeleteOutlined,
-  RemoveOutlined,
-} from "@mui/icons-material";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import ShoppingCartBtn from "./ShoppingCartBtn";
 
 const ShoppingCart = () => {
-  const [amount, setAmount] = useState<number>(1);
-  const addHandler = () => {
-    setAmount(amount + 1);
-  };
-  const minusHandler = () => {
-    if (amount > 0) {
-      setAmount(amount - 1);
-    }
-  };
   return (
     <div className="px-6 md:px-10  bg-white text-light-text dark:text-dark-text bg-light-background/50 dark:bg-gray-800 py-4">
       <div className="grid md:grid-cols-3 gap-4">
@@ -27,43 +13,40 @@ const ShoppingCart = () => {
           <hr className="border-gray-300 mt-4 mb-8" />
 
           <div className="space-y-4 ">
-            <div className="">
-              <div className="flex items-center gap-4  ">
-                <div className="w-24 h-24 shrink-0 bg-white p-2 rounded-md">
-                  <Image
-                    src="/imgs/1.png"
-                    width={150}
-                    height={150}
-                    alt="img"
-                    className="w-full h-full object-contain"
-                  />
-                </div>
+            {/* Items  */}
+            <div className="flex items-center gap-4  ">
+              <div className="w-24 h-24 shrink-0 bg-white p-2 rounded-md">
+                <Image
+                  src="/imgs/1.png"
+                  width={150}
+                  height={150}
+                  alt="img"
+                  className="w-full h-full object-contain"
+                />
+              </div>
 
-                <div className=" w-full">
-                  <h3 className="text-base font-bold ">Velvet Sneaker</h3>
-                  <h6 className="text-base font-bold">$20.00</h6>
+              <div className=" w-full">
+                <h3 className="text-base font-bold ">Velvet Sneaker</h3>
+                <h6 className="text-base font-bold">$20.00</h6>
+                <ShoppingCartBtn />
+              </div>
+            </div>
 
-                  <div className="flex justify-between mt-4">
-                    <div>
-                      <div
-                        className="flex items-center px-2.5 py-1.5 border border-gray-300  text-xs outline-none bg-transparent rounded-md"
-                      >
-                        <button className="" onClick={minusHandler}>
-                          <RemoveOutlined fontSize="small" />
-                        </button>
+            <div className="flex items-center gap-4  ">
+              <div className="w-24 h-24 shrink-0 bg-white p-2 rounded-md">
+                <Image
+                  src="/imgs/1.png"
+                  width={150}
+                  height={150}
+                  alt="img"
+                  className="w-full h-full object-contain"
+                />
+              </div>
 
-                        <span className="mx-2.5 text-[16px]">{amount}</span>
-
-                        <button className="" onClick={addHandler}>
-                          <AddOutlined fontSize="small" />
-                        </button>
-                      </div>
-                    </div>
-                    <button className="hover:text-red-400 hoverEle">
-                      <DeleteOutlined />
-                    </button>
-                  </div>
-                </div>
+              <div className=" w-full">
+                <h3 className="text-base font-bold ">Velvet Sneaker</h3>
+                <h6 className="text-base font-bold">$20.00</h6>
+                <ShoppingCartBtn />
               </div>
             </div>
           </div>

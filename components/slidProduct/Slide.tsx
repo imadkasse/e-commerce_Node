@@ -13,14 +13,14 @@ import Link from "next/link";
 
 const Slide = () => {
   return (
-    <div className="">
+    <>
       <Swiper
         navigation={true}
         autoplay={{
           delay: 3500,
           disableOnInteraction: true,
         }}
-        modules={[Autoplay,  Navigation]}
+        modules={[Autoplay, Navigation]}
         className="mySwiper"
         freeMode={true}
         loop={true}
@@ -90,7 +90,7 @@ const Slide = () => {
           </div>
         </SwiperSlide>
       </Swiper>
-    </div>
+    </>
   );
 };
 

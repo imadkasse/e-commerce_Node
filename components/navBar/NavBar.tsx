@@ -1,4 +1,5 @@
 "use client";
+import Cookies from "js-cookie";
 import {
   DarkModeOutlined,
   FavoriteBorderOutlined,
@@ -9,11 +10,15 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useUser } from "../login&signUp/context/user";
+import { useRouter } from "next/navigation";
 
 const NavBar = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [searchMenuValue, setSearchMenuValue] = useState("All Categories");
   const [showSearchMenu, setShowSearchMenu] = useState(false);
+  const router = useRouter();
 
   type Theme = null | boolean;
 
@@ -55,12 +60,42 @@ const NavBar = () => {
       document.removeEventListener("click", handleOutsideClick);
     };
   }, [showSearchMenu, showUserMenu]);
+
   // const { toggleTheme } = useContext(ThemeContext);
+
   const toggleTheme = () => {
     setDarkMode(!darkMode);
   };
 
-  const user = true; // if user is not logged in or log in
+  const { user, setUser } = useUser();
+
+  useEffect(() => {
+    const handleUserData = async () => {
+      const token = Cookies.get("token"); // التأكد من وجود الـ token
+      if (token) {
+        const data = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/users/data-user`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setUser(data.data.data.user);
+      }
+    };
+
+    const token = Cookies.get("token");
+    if (token) {
+      handleUserData(); // جلب بيانات المستخدم إذا كان الـ token متاحًا
+    }
+  }, [setUser]);
+
+  const handelSignOut = () => {
+    Cookies.remove("token");
+    setUser(null);
+    router.push("/");
+  };
 
   return (
     <header className=" text-light-text dark:text-dark-text flex flex-col gap-5 bg-light-background/50 dark:bg-gray-800">
@@ -231,7 +266,7 @@ const NavBar = () => {
                 <div className="relative ">
                   <FavoriteBorderOutlined />
                   <span className="bg-red-500 text-[10px] px-1.5 font-semibold min-w-[16px] h-4 flex items-center justify-center text-white rounded-full absolute -top-2 left-[60%]">
-                    1
+                    {user?.favorites.length || 0}
                   </span>
                 </div>
               </Link>
@@ -256,10 +291,8 @@ const NavBar = () => {
                       className="z-10 absolute right-0 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
                     >
                       <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
-                        <div>Bonnie Green</div>
-                        <div className="font-medium truncate">
-                          name@flowbite.com
-                        </div>
+                        <div>{user.username}</div>
+                        <div className="font-medium truncate">{user.email}</div>
                       </div>
                       <ul
                         className="py-2 text-sm text-gray-700 dark:text-gray-200"
@@ -275,12 +308,12 @@ const NavBar = () => {
                         </li>
                       </ul>
                       <div className="py-1">
-                        <Link
-                          href="#"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        <button
+                          onClick={handelSignOut}
+                          className="w-full text-start px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                         >
                           Sign out
-                        </Link>
+                        </button>
                       </div>
                     </div>
                   )}

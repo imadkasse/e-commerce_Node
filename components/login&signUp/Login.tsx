@@ -1,13 +1,27 @@
 "use client";
-import { DarkModeOutlined, FacebookOutlined, LightMode } from "@mui/icons-material";
+import Cookies from "js-cookie";
+import {
+  DarkModeOutlined,
+  FacebookOutlined,
+  LightMode,
+} from "@mui/icons-material";
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Loader from "../loader/Loader";
 
 const Login = () => {
   type Theme = null | boolean;
+  const router = useRouter();
 
   const [darkMode, setDarkMode] = useState<Theme>(null);
+
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const [email, setEmail] = useState<string>("NEW2322@gm.com");
+  const [password, setPassword] = useState<string>("kasseImad");
 
   useEffect(() => {
     if (darkMode) {
@@ -23,9 +37,34 @@ const Login = () => {
   const toggleTheme = () => {
     setDarkMode(!darkMode);
   };
+
+  const handelLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      const data = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/users/login`,
+        {
+          email: email,
+          password: password,
+        }
+      );
+      const token = data.data.token;
+
+      Cookies.set("token", token); // تعيين كوكيز توقيت 7 أيام
+      // تسجيل الدخول بنجاح، لا حاجة لقراءة الـ token هنا
+      console.log("Login successful!");
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen grid grid-cols-2 bg-light-background dark:bg-gray-800 text-light-text dark:text-dark-text ">
-      <div className="">
+    <div className="min-h-screen grid grid-cols-2 xs:grid-cols-1 md:grid-cols-2  bg-light-background dark:bg-gray-800 text-light-text dark:text-dark-text ">
+      <div className="xs:hidden md:block">
         <Image
           src={"/imgs/ecoLogin.jpeg"}
           width={9000}
@@ -45,12 +84,19 @@ const Login = () => {
             <LightMode className="hoverEle" />
           )}
         </button>
-        <form className="flex flex-col justify-center p-24 w-full  ">
+        <form
+          className="flex flex-col justify-center p-24 w-full  "
+          onSubmit={handelLogin}
+        >
           <div className="mb-5">
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
               Your email
             </label>
             <input
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
               type="email"
               id="email"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -62,6 +108,10 @@ const Login = () => {
               Your password
             </label>
             <input
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
               type="password"
               id="password"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -81,9 +131,13 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            className="text-white   font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-dark-buttonPrimary dark:hover:bg-dark-buttonPrimary/80 hoverEle bg-light-buttonPrimary hover:bg-light-buttonPrimary/80"
+            className={`text-white  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center  ${
+              loading
+                ? "dark:bg-dark-buttonPrimary dark:hover:bg-dark-buttonPrimary/80 hoverEle bg-light-buttonPrimary hover:bg-light-buttonPrimary/80"
+                : "cursor-not-allowed dark:bg-dark-buttonPrimary/80  bg-light-buttonPrimary/80"
+            } `}
           >
-            Login
+            {loading ? <h1>Sign Up</h1> : <Loader />}
           </button>
         </form>
       </div>
