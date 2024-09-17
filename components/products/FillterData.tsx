@@ -3,11 +3,16 @@ import React, { useState } from "react";
 import { useQuery } from "./QueryContext";
 
 const FillterData = () => {
-  const { setQurey } = useQuery();
+  const { qurey, setQurey } = useQuery();
+  const [category, setCategory] = useState<string>("");
+  const [rating, setRating] = useState<number>(0);
 
   const handelFlilter = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setQurey("/api/eco/products?sort=price&page=1&limit=2");
+    console.log(rating);
+    setQurey(`/api/eco/products?rating[gte]=${rating}&${category}`);
+
+    console.log(qurey);
   };
 
   return (
@@ -34,23 +39,31 @@ const FillterData = () => {
               </label>
               <select
                 id="category"
+                value={category}
+                onChange={(e) => {
+                  setCategory(e.target.value);
+                }}
                 name="category"
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-gray-200"
               >
-                <option value="">chose category</option>
-                <option value="electronics">Elec</option>
-                <option value="fashion">Acsse</option>
-                <option value="home">T-shirts</option>
+                <option value="">All Category</option>
+                <option value="category=Electronics">Electronics</option>
+                <option value="category=Clothing">Clothing</option>
+                <option value="category=Home-Kitchen">Home & Kitchen</option>
+                <option value="category=Books">Books</option>
+                <option value="category=Sports-Outdoors">
+                  Sports & Outdoors
+                </option>
               </select>
             </div>
 
-            {/* الفلترة حسب السعر */}
+            {/*  الفلترة حسب السعر    */}
             <div>
               <label
                 htmlFor="price"
                 className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                price
+                rating
               </label>
               <input
                 type="range"
@@ -67,23 +80,36 @@ const FillterData = () => {
               </div>
             </div>
 
-            {/* الفلترة حسب العلامة التجارية */}
+            {/* الفلترة حسب العلامة التقييم */}
             <div>
               <label
                 htmlFor="rating"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                className="flex justify-between items-center py-2 text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                rating
+                <h1>rating</h1>
+                <p>{rating}</p>
               </label>
               <input
+                value={rating}
+                onChange={(e) => {
+                  setRating(Number(e.target.value));
+                }}
                 type="range"
                 id="rating"
                 name="rating"
                 min="0"
                 max="5"
-                step="1"
+                step="0.1"
                 className="w-full"
               />
+              <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mt-1">
+                <span>0</span>
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+                <span>5</span>
+              </div>
             </div>
 
             {/* زر الفلترة */}

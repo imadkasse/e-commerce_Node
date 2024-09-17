@@ -31,7 +31,7 @@ const Slide = () => {
             <h1 className="text-5xl font-bold">T-shirt</h1>
             <p className="text-xl">the t-shirt are loved for many peploe</p>
             <Link
-              href={"/"}
+              href={"/products"}
               className="w-32 text-center bg-red-400 p-2 rounded-lg text-white hover:bg-red-400/60 font-semibold hoverEle"
             >
               Shop Now
@@ -52,7 +52,7 @@ const Slide = () => {
             <h1 className="text-5xl font-bold">Headset</h1>
             <p className="text-xl">the Headset are loved for many peploe</p>
             <Link
-              href={"/"}
+              href={"/products"}
               className="w-32 text-center bg-red-400 p-2 rounded-lg text-white hover:bg-red-400/60 font-semibold hoverEle"
             >
               Shop Now
@@ -74,7 +74,7 @@ const Slide = () => {
             <h1 className="text-5xl font-bold">T-shirt</h1>
             <p className="text-xl">the t-shirt are loved for many peploe</p>
             <Link
-              href={"/"}
+              href={"/products"}
               className="w-32 text-center bg-red-400 p-2 rounded-lg text-white hover:bg-red-400/60 font-semibold hoverEle"
             >
               Shop Now

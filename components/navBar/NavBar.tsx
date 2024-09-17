@@ -91,6 +91,10 @@ const NavBar = () => {
     }
   }, [setUser]);
 
+  useEffect(() => {
+    console.log(user)
+  }, [user]);
+
   const handelSignOut = () => {
     Cookies.remove("token");
     setUser(null);

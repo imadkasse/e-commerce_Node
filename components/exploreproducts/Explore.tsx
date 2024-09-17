@@ -71,7 +71,7 @@ const Explore = async () => {
                   </Link>
 
                   {/* check if product is favorite */}
-                  <FavoriteBtn isFavorite={false} />
+                  <FavoriteBtn isFavorite={false} productId={product._id} />
 
                   {/* Sold Out */}
                   {!product.availability ? (
@@ -172,24 +172,10 @@ const Explore = async () => {
       },
     }
   );
+  
   const favorites: FavoriteProduct[] = dataFav.data.data.favorites;
   const favProduct = favorites.map((fav) => fav._id);
 
-  const addProductToFavorites = async (productId: string | undefined) => {
-    try {
-      const data = await axios.post(
-        `${process.env.BACK_URL}/api/eco/products/favorite/${productId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log("product added to favorites");
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <div className="px-4  sm:px-10  py-10  bg-light-background/50 dark:bg-gray-800 relative">
@@ -229,7 +215,7 @@ const Explore = async () => {
                   <FavoriteBtn
                     key={product._id}
                     isFavorite={false}
-                    onFavoriteClick={addProductToFavorites(product._id)}
+                    productId={product._id}
                   />
                 )}
 

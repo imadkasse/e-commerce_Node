@@ -3,7 +3,6 @@ import React from "react";
 import FavoriteBtn from "./FavoriteBtn";
 import axios from "axios";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 interface Favorite {
   _id: string;
@@ -66,7 +65,7 @@ const Favorite = async () => {
                     </div>
 
                     <div className="ml-auto flex flex-col">
-                      <FavoriteBtn />
+                      <FavoriteBtn id={favorite._id} />
                       <h3 className="text-base font-bold  mt-auto">
                         ${favorite.price}
                       </h3>

@@ -1,7 +1,7 @@
 import Explore from "@/components/exploreproducts/Explore";
 import Headr from "@/components/navBar/Headr";
 import NavBar from "@/components/navBar/NavBar";
-import ShowAllProducts from "@/components/products/ShowAllProducts";
+import ShowAllProductsWithFillter from "@/components/products/ShowAllProductsWithFillter";
 import React from "react";
 
 const page = () => {
@@ -9,7 +9,7 @@ const page = () => {
     <>
       <NavBar />
       <Headr />
-      <ShowAllProducts />
+      <ShowAllProductsWithFillter />
     </>
   );
 };
