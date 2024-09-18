@@ -18,9 +18,7 @@ interface QueryProviderProps {
 }
 
 export const QueryProvider: React.FC<QueryProviderProps> = ({ children }) => {
-  const [qurey, setQurey] = useState(
-    "/api/eco/products?sort=price&page=1&limit=8"
-  );
+  const [qurey, setQurey] = useState("/api/eco/products");
 
   return (
     <QueryContext.Provider value={{ qurey, setQurey }}>

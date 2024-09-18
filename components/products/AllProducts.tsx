@@ -9,10 +9,11 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import FavoriteBtn from "../mostTrendingProducts/FavoriteBtn";
 import Skeleton from "./Skeleton";
 import { useQuery } from "./QueryContext";
+import { useRouter } from "next/navigation";
 
 interface Product {
   _id: string;
@@ -38,22 +39,34 @@ const AllProducts = () => {
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
+  const prevFavProductRef = useRef<string[]>(favProduct);
+
+  const router = useRouter();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Get token from cookies
-
-        const tokenValue = Cookies.get("token");
-        setToken(tokenValue || null);
-
         // Fetch products
         const data = await axios.get(
           `${process.env.NEXT_PUBLIC_BACK_URL}${qurey}`
         );
         setProducts(data.data.data.products);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-        // If token exists, fetch favorites
-        if (tokenValue) {
+    fetchData();
+  }, [qurey]);
+
+  useEffect(() => {
+    const handelFav = async () => {
+      const tokenValue = Cookies.get("token");
+      console.log("first")
+      if (tokenValue) {
+        try {
           const dataFav = await axios.get(
             `${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/products/favorite/allItems`,
             {
@@ -65,17 +78,28 @@ const AllProducts = () => {
           const favoritesData = dataFav.data.data.favorites.map(
             (fav: FavoriteProduct) => fav._id
           );
-          setFavorites(favoritesData);
+          if (
+            JSON.stringify(favProduct).length !==
+            JSON.stringify(favoritesData).length
+          ) {
+            setFavorites(favoritesData);
+          }
+        } catch (error) {
+          console.error("Error fetching favorite products:", error);
         }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
       }
     };
+    handelFav();
+  }, [favProduct]);
 
-    fetchData();
-  }, [qurey, favProduct]);
+  useEffect(() => {
+    if (prevFavProductRef.current !== favProduct) {
+      // Change detected in favProduct
+      console.log("Change detected in favProduct");
+      // Change the value of prevFavProductRef
+      prevFavProductRef.current = favProduct;
+    }
+  }, [favProduct]);
 
   return (
     <div className="py-14  grid xl:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-9 items-center xs:justify-items-center ">

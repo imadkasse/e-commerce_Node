@@ -10,6 +10,7 @@ import Link from "next/link";
 import React from "react";
 import FavoriteBtn from "../mostTrendingProducts/FavoriteBtn";
 import { cookies } from "next/headers";
+import ShoppingCartBtn from "../shoppingCartFunction/ShoppingCartBtn";
 
 interface Product {
   _id: string;
@@ -24,6 +25,9 @@ interface Product {
   availability: boolean;
 }
 interface FavoriteProduct {
+  _id: string;
+}
+interface ShopCartProduct {
   _id: string;
 }
 
@@ -172,10 +176,36 @@ const Explore = async () => {
       },
     }
   );
-  
+  const dataShopCart = await axios.get(
+    `${process.env.BACK_URL}/api/eco/products/shopCart/allItems`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  const shopCartItems: ShopCartProduct[] = dataShopCart.data.data.shopCart;
+  const shopCartIds = shopCartItems.map((item) => item._id);
+
   const favorites: FavoriteProduct[] = dataFav.data.data.favorites;
   const favProduct = favorites.map((fav) => fav._id);
 
+  const addToCart = async (productId: string) => {
+    try {
+      const data = await axios.post(
+        `${process.env.BACK_URL}/api/eco/products/shopCart/${productId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("add to cart successfully ");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="px-4  sm:px-10  py-10  bg-light-background/50 dark:bg-gray-800 relative">
@@ -287,9 +317,18 @@ const Explore = async () => {
                       <p>Buy Now</p>
                       <LocalMallOutlined />
                     </Link>
-                    <button className="  flex items-center p-2 justify-between hoverEle text-white bg-red-400  font-medium rounded-lg text-sm   text-center hover:bg-red-400/60 ">
-                      <AddShoppingCartOutlined />
-                    </button>
+                    {/* check is in Shopping Cart */}
+                    {shopCartIds.includes(product._id) ? (
+                      <ShoppingCartBtn
+                        productId={product._id}
+                        isInShoppingCart={true}
+                      />
+                    ) : (
+                      <ShoppingCartBtn
+                        productId={product._id}
+                        isInShoppingCart={false}
+                      />
+                    )}
                   </div>
                 )}
               </div>

@@ -2,6 +2,7 @@
 import { ArrowForwardIos } from "@mui/icons-material";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { useQuery } from "../products/QueryContext";
 
 const Headr = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -24,6 +25,7 @@ const Headr = () => {
       document.removeEventListener("click", handleOutsideClick);
     };
   }, [showMenu, showMenu2]);
+  const { qurey, setQurey } = useQuery();
   return (
     <div className="sm:px-9 xs:px-6  bg-[#304C89]   sticky top-0  w-full z-10">
       <div className="flex items-center justify-between relative gap-2">
@@ -67,11 +69,17 @@ const Headr = () => {
         {showMenu2 && (
           <div className="z-50 absolute rounded-lg  w-[244px] py-4 top-16 flex flex-col gap-2 bg-white shadow dark:bg-gray-700">
             <div className="hover:bg-red-400 h-10  flex items-center hoverEle group">
+              <button className="  px-3 h-full flex flex-col justify-center  text-black dark:text-white w-full  text-[16px] leading-[1.1] font-[500] group-hover:text-black/60 transition duration-1000">
+                Electronics
+              </button>
+            </div>
+
+            <div className="hover:bg-red-400 h-10  flex items-center hoverEle group">
               <Link
-                className="  px-3 h-full flex flex-col justify-center  text-black dark:text-white w-full  text-[16px] leading-[1.1] font-[500] group-hover:text-black/60 transition duration-1000"
+                className="px-3 h-full flex flex-col justify-center text-black dark:text-white w-full  text-[16px] leading-[1.1] font-[500] group-hover:text-black/60 transition duration-1000"
                 href="/login"
               >
-                Accessories
+                Clothing
               </Link>
             </div>
 
@@ -80,16 +88,7 @@ const Headr = () => {
                 className="px-3 h-full flex flex-col justify-center text-black dark:text-white w-full  text-[16px] leading-[1.1] font-[500] group-hover:text-black/60 transition duration-1000"
                 href="/login"
               >
-                Phones
-              </Link>
-            </div>
-
-            <div className="hover:bg-red-400 h-10  flex items-center hoverEle group">
-              <Link
-                className="px-3 h-full flex flex-col justify-center text-black dark:text-white w-full  text-[16px] leading-[1.1] font-[500] group-hover:text-black/60 transition duration-1000"
-                href="/login"
-              >
-                Coumputer
+                Home & Kitchen
               </Link>
             </div>
 
@@ -98,20 +97,18 @@ const Headr = () => {
                 className="px-3 h-full flex flex-col justify-center  text-black dark:text-white w-full  text-[16px] leading-[1.1] font-[500] group-hover:text-black/60 transition duration-1000"
                 href="/login"
               >
-                T-shirt
+                Books
               </Link>
-              <ArrowForwardIos
-                fontSize="small"
-                className=" text-sm text-black dark:text-white group-hover:text-black/60 transition duration-1000"
-              />
-              <div className="group-hover:flex hoverEl absolute bg-gray-700 -right-44 w-44 hidden flex-col gap-2 py-2 top-0 rounded-md">
-                <div className="hover:bg-red-400 h-10 px-3 flex items-center hoverEle text-black dark:text-white">
-                  Men
-                </div>
-                <div className="hover:bg-red-400 h-10 px-3 flex items-center hoverEle text-black dark:text-white">
-                  Women
-                </div>
-              </div>
+              
+            </div>
+            <div className="hover:bg-red-400 h-10  flex items-center hoverEle group relative">
+              <Link
+                className="px-3 h-full flex flex-col justify-center  text-black dark:text-white w-full  text-[16px] leading-[1.1] font-[500] group-hover:text-black/60 transition duration-1000"
+                href="/login"
+              >
+                Sports & Outdoors
+              </Link>
+              
             </div>
           </div>
         )}
@@ -122,7 +119,7 @@ const Headr = () => {
               className="text-[#FFF] hover:text-red-400 text-[16px] font-[500]"
               href="products"
             >
-              Accessories
+              Electronics
             </Link>
           </li>
           <li className="leading-[1]">
@@ -130,7 +127,7 @@ const Headr = () => {
               className="text-[#FFF] hover:text-red-400 text-[16px] font-[500]"
               href="products"
             >
-              Networking
+              Clothing
             </Link>
           </li>
           <li className="leading-[1]">
@@ -138,7 +135,7 @@ const Headr = () => {
               className="text-[#FFF] hover:text-red-400 text-[16px] font-[500]"
               href="products"
             >
-              Computers
+              Home & Kitchen
             </Link>
           </li>
           <li className="leading-[1]">
@@ -146,7 +143,7 @@ const Headr = () => {
               className="text-[#FFF] hover:text-red-400 text-[16px] font-[500]"
               href="products"
             >
-              Phones
+              Books
             </Link>
           </li>
           <li className="leading-[1]">
@@ -154,7 +151,7 @@ const Headr = () => {
               className="text-[#FFF] hover:text-red-400 text-[16px] font-[500]"
               href="products"
             >
-              Monitors
+              Sports & Outdoors
             </Link>
           </li>
         </ul>
@@ -201,7 +198,7 @@ const Headr = () => {
                   className="text-black dark:text-white hover:text-red-400 dark:hover:text-red-400 text-[16px] leading-[1.1] font-[500]"
                   href="/"
                 >
-                  Accessories
+                  Electronics
                 </Link>
               </li>
               <li className="leading-[1]">
@@ -209,7 +206,7 @@ const Headr = () => {
                   className="text-black dark:text-white hover:text-red-400 dark:hover:text-red-400 text-[16px] leading-[1.1] font-[500]"
                   href="products"
                 >
-                  Networking
+                  Clothing
                 </Link>
               </li>
               <li className="leading-[1]">
@@ -217,7 +214,7 @@ const Headr = () => {
                   className="text-black dark:text-white hover:text-red-400 dark:hover:text-red-400 text-[16px] leading-[1.1] font-[500]"
                   href="products"
                 >
-                  Computers
+                  Home & Kitchen
                 </Link>
               </li>
               <li className="leading-[1]">
@@ -225,7 +222,7 @@ const Headr = () => {
                   className="text-black dark:text-white hover:text-red-400 dark:hover:text-red-400 text-[16px] leading-[1.1] font-[500]"
                   href="products"
                 >
-                  Phones
+                  Books
                 </Link>
               </li>
               <li className="leading-[1]">
@@ -233,7 +230,7 @@ const Headr = () => {
                   className="text-black dark:text-white hover:text-red-400 dark:hover:text-red-400 text-[16px] leading-[1.1] font-[500]"
                   href="products"
                 >
-                  Monitors
+                  Sports & Outdoors
                 </Link>
               </li>
             </ul>

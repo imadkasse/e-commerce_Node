@@ -2,8 +2,9 @@
 import { DeleteOutlined, FavoriteSharp } from "@mui/icons-material";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import Cookies from "js-cookie";
+import Loader from "../loader/Loader";
 
 interface Id {
   id: string;
@@ -11,6 +12,8 @@ interface Id {
 
 const FavoriteBtn = ({ id }: Id) => {
   const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(true);
+
   const handelDelete = async (id: string) => {
     try {
       const token = Cookies.get("token");
@@ -28,21 +31,27 @@ const FavoriteBtn = ({ id }: Id) => {
       router.refresh();
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center gap-4 justify-end">
+    <div className="flex items-center gap-4 justify-end ">
       <button className="hoverEle">
         <FavoriteSharp className="fill-red-400" />
       </button>
-      <button
-        onClick={() => {
-          handelDelete(id);
-        }}
-      >
-        <DeleteOutlined className="hover:fill-red-800 hoverEle" />
-      </button>
+      {loading ? (
+        <button
+          onClick={() => {
+            handelDelete(id);
+          }}
+        >
+          <DeleteOutlined className="hover:fill-red-800 hoverEle" />
+        </button>
+      ) : (
+        <Loader />
+      )}
     </div>
   );
 };

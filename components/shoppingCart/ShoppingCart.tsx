@@ -1,54 +1,95 @@
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import ShoppingCartBtn from "./ShoppingCartBtn";
+import axios from "axios";
+import { cookies } from "next/headers";
+import ShoppingCartClearBtn from "./ShoppingCartClearBtn";
 
-const ShoppingCart = () => {
+interface ShopCartItems {
+  _id: string;
+  name: string;
+  price: number;
+  image: string[];
+}
+
+const ShoppingCart = async () => {
+  const CookiesStore = cookies();
+  const token = CookiesStore.get("token")?.value;
+  if (!token) {
+    return (
+      <div className="px-6 md:px-10 h-[70vh]  bg-white text-light-text dark:text-dark-text bg-light-background/50 dark:bg-gray-800 py-4">
+        <div className="w-full  h-full flex  justify-center items-center ">
+          <Link
+            href="/login"
+            className="text-4xl flex flex-col text-center gap-3"
+          >
+            You Are Not Loggin
+            <span className="hover:text-red-400 hoverEle">
+              Please Click Here To Log In
+            </span>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+  const data = await axios.get(
+    `${process.env.BACK_URL}/api/eco/products/shopCart/allItems`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  const shopCartItems: ShopCartItems[] = data.data.data.shopCart;
+
+  const totalPrice = shopCartItems.reduce((total, item) => {
+    return total + item.price;
+  }, 0);
+
+  const roundedTotalPrice = parseFloat(totalPrice.toFixed(2));
+
   return (
     <div className="px-6 md:px-10  bg-white text-light-text dark:text-dark-text bg-light-background/50 dark:bg-gray-800 py-4">
       <div className="grid md:grid-cols-3 gap-4">
         {/* My Products */}
-        <div className="md:col-span-2 bg-gray-100 dark:bg-gray-700 p-4 rounded-md">
-          <h2 className="text-2xl font-bold ">Cart</h2>
+        <div className=" md:col-span-2 bg-gray-100 dark:bg-gray-700 p-4 rounded-md">
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold ">Cart</h2>
+            {shopCartItems.length === 0 ? (
+              <ShoppingCartClearBtn isItems={true} />
+            ) : (
+              <ShoppingCartClearBtn isItems={false} />
+            )}
+          </div>
           <hr className="border-gray-300 mt-4 mb-8" />
 
           <div className="space-y-4 ">
             {/* Items  */}
-            <div className="flex items-center gap-4  ">
-              <div className="w-24 h-24 shrink-0 bg-white p-2 rounded-md">
-                <Image
-                  src="/imgs/1.png"
-                  width={150}
-                  height={150}
-                  alt="img"
-                  className="w-full h-full object-contain"
-                />
-              </div>
 
-              <div className=" w-full">
-                <h3 className="text-base font-bold ">Velvet Sneaker</h3>
-                <h6 className="text-base font-bold">$20.00</h6>
-                <ShoppingCartBtn />
-              </div>
-            </div>
+            {shopCartItems.length > 0
+              ? shopCartItems.map((item) => {
+                  return (
+                    <div className="flex items-center gap-4  " key={item._id}>
+                      <div className="w-24 h-24 shrink-0 bg-white p-2 rounded-md">
+                        <Image
+                          src="/imgs/1.png"
+                          width={150}
+                          height={150}
+                          alt="img"
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
 
-            <div className="flex items-center gap-4  ">
-              <div className="w-24 h-24 shrink-0 bg-white p-2 rounded-md">
-                <Image
-                  src="/imgs/1.png"
-                  width={150}
-                  height={150}
-                  alt="img"
-                  className="w-full h-full object-contain"
-                />
-              </div>
-
-              <div className=" w-full">
-                <h3 className="text-base font-bold ">Velvet Sneaker</h3>
-                <h6 className="text-base font-bold">$20.00</h6>
-                <ShoppingCartBtn />
-              </div>
-            </div>
+                      <div className=" w-full">
+                        <h3 className="text-base font-bold ">{item.name}</h3>
+                        <h6 className="text-base font-bold">${item.price}</h6>
+                        <ShoppingCartBtn />
+                      </div>
+                    </div>
+                  );
+                })
+              : ""}
           </div>
         </div>
 
@@ -79,7 +120,7 @@ const ShoppingCart = () => {
               Tax <span className="ml-auto font-bold">$4.00</span>
             </li>
             <li className="flex flex-wrap gap-4 text-base font-bold">
-              Total <span className="ml-auto">$52.00</span>
+              Total <span className="ml-auto">${roundedTotalPrice}</span>
             </li>
           </ul>
 

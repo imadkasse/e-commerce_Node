@@ -3,6 +3,7 @@ import React from "react";
 import FavoriteBtn from "./FavoriteBtn";
 import axios from "axios";
 import { cookies } from "next/headers";
+import Link from "next/link";
 
 interface Favorite {
   _id: string;
@@ -17,8 +18,18 @@ const Favorite = async () => {
 
   if (!token) {
     return (
-      <div className="text-center h-screen py-8 bg-light-background/50 dark:bg-gray-800 px-6 md:px-10 text-light-text dark:text-dark-text">
-        You are not logged in
+      <div className="px-6 md:px-10 h-[70vh]  bg-white text-light-text dark:text-dark-text bg-light-background/50 dark:bg-gray-800 py-4">
+        <div className="w-full  h-full flex  justify-center items-center ">
+          <Link
+            href="/login"
+            className="text-4xl flex flex-col text-center gap-3"
+          >
+            You Are Not Loggin
+            <span className="hover:text-red-400 hoverEle">
+              Please Click Here To Log In
+            </span>
+          </Link>
+        </div>
       </div>
     );
   }

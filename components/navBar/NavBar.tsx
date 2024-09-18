@@ -69,6 +69,12 @@ const NavBar = () => {
 
   const { user, setUser } = useUser();
 
+  const totalPrice = user?.shopCart.reduce((total, item) => {
+    return total + item.price;
+  }, 0);
+
+  const roundedTotalPrice = parseFloat(totalPrice?.toFixed(0));
+
   useEffect(() => {
     const handleUserData = async () => {
       const token = Cookies.get("token"); // التأكد من وجود الـ token
@@ -92,7 +98,7 @@ const NavBar = () => {
   }, [setUser]);
 
   useEffect(() => {
-    console.log(user)
+    console.log(user);
   }, [user]);
 
   const handelSignOut = () => {
@@ -259,7 +265,7 @@ const NavBar = () => {
                 <div className="relative ">
                   <ShoppingCartOutlined />
                   <span className="bg-red-500 text-[10px] px-1.5 font-semibold min-w-[16px] h-4 flex items-center justify-center text-white rounded-full absolute -top-2 left-[60%]">
-                    1
+                    ${roundedTotalPrice || 0}
                   </span>
                 </div>
               </Link>
