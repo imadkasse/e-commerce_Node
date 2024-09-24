@@ -8,7 +8,7 @@ import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import FavoriteBtn from "./FavoriteBtn";
+import FavoriteBtn from "../favoriteBtn/FavoriteBtn";
 import { cookies } from "next/headers";
 
 interface Product {
@@ -36,7 +36,7 @@ const MostProducts = async () => {
 
   const cookieStore = cookies();
   const token = cookieStore.get("token")?.value;
-  
+
   if (!token) {
     return (
       <div className="px-4  sm:px-10  py-10  bg-light-background/50 dark:bg-gray-800 ">

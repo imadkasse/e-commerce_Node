@@ -6,6 +6,8 @@ import { AddShoppingCartOutlined } from "@mui/icons-material";
 import Loader from "../loader/Loader";
 import { Button, Tooltip } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface Props {
   productId: string;
@@ -14,12 +16,27 @@ interface Props {
 
 const ShoppingCartBtn = ({ productId, isInShoppingCart }: Props) => {
   const token = Cookies.get("token");
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false); 
   const router = useRouter();
 
   const addToCart = async (productId: string) => {
+    if (!token) {
+      toast.error("You need to be logged in to add to shopcart!", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        className: "bg-white text-black dark:bg-gray-800 dark:text-white",
+      });
+      return;
+    }
+
+    setLoading(true); // تبدأ عملية التحميل
+
     try {
-      const data = await axios.post(
+      const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/products/shopCart/${productId}`,
         {},
         {
@@ -28,38 +45,52 @@ const ShoppingCartBtn = ({ productId, isInShoppingCart }: Props) => {
           },
         }
       );
-      console.log("add to cart successfully ");
+
+      toast.success("Added to cart successfully!", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        className: "bg-white text-black dark:bg-gray-800 dark:text-white",
+      });
       router.refresh();
     } catch (error) {
-      console.log(error);
+      console.error("Error adding to cart:", error);
+      toast.error("Failed to add to cart, please try again.", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        className: "bg-white text-black dark:bg-gray-800 dark:text-white",
+      });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div>
+    <>
       {isInShoppingCart ? (
-        <>
-          <Tooltip title="Alredy in Shopping Cart" placement="top">
-            <button className="bg-red-400/60 cursor-not-allowed  flex items-center p-2 justify-between hoverEle text-white bg-red-400  font-medium rounded-lg text-sm   text-center hover:bg-red-400/60 ">
-              <AddShoppingCartOutlined />
-            </button>
-          </Tooltip>
-        </>
+        <Tooltip title="Already in Shopping Cart" placement="top">
+          <button className="bg-red-400/60 cursor-not-allowed flex items-center p-2 justify-between text-white font-medium rounded-lg text-sm hover:bg-red-400/60">
+            <AddShoppingCartOutlined />
+          </button>
+        </Tooltip>
       ) : loading ? (
+        <Loader /> 
+      ) : (
         <button
-          onClick={() => {
-            addToCart(productId);
-          }}
-          className="flex items-center p-2 justify-between hoverEle text-white bg-red-400  font-medium rounded-lg text-sm   text-center hover:bg-red-400/60 "
+          onClick={() => addToCart(productId)}
+          className="flex items-center p-2 justify-between text-white bg-red-400 font-medium rounded-lg text-sm hover:bg-red-400/60"
         >
           <AddShoppingCartOutlined />
         </button>
-      ) : (
-        <Loader />
       )}
-    </div>
+    </>
   );
 };
 

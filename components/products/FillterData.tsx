@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useQuery } from "./QueryContext";
 
 const FillterData = () => {
-  const { qurey, setQurey } = useQuery();
+  const { query, setQurey } = useQuery();
   const [category, setCategory] = useState<string>("");
   const [rating, setRating] = useState<number>(0);
 
@@ -12,7 +12,7 @@ const FillterData = () => {
     console.log(rating);
     setQurey(`/api/eco/products?rating[gte]=${rating}&${category}`);
 
-    console.log(qurey);
+    console.log(query);
   };
 
   return (

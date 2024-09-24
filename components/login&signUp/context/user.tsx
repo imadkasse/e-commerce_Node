@@ -1,14 +1,29 @@
 "use client";
-import React, { createContext, ReactNode, useContext, useState } from "react";
+import React, {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import Cookies from "js-cookie";
+import axios from "axios";
 
 interface Order {
   _id: string;
-  products: any[]; // يمكنك استبدال any بواجهة المنتجات إذا كنت تعرف هيكل البيانات الخاص بها
-  date: string; // تمثل بتنسيق ISO 8601
+  products: any[];
+  date: string; 
   codePromo: string | null;
   address: string;
   price: number;
   __v: number;
+}
+
+interface Favorites {
+  _id: string;
+  images: string[];
+  name: string;
+  price: number;
 }
 
 interface User {
@@ -16,8 +31,8 @@ interface User {
   username: string;
   email: string;
   active: boolean;
-  favorites: any[]; // يمكنك استبدال any بواجهة المفضلات إذا كانت معروفة
-  shopCart: any[]; // يمكنك استبدال any بواجهة سلة التسوق إذا كانت معروفة
+  favorites: Favorites[];
+  shopCart: any[];
   orders: Order[];
 }
 
@@ -33,7 +48,34 @@ interface UserProviderProps {
 }
 
 const UserProvider = ({ children }: UserProviderProps) => {
-  const [user, setUser] = useState<User | null>(null); // حالة المستخدم
+  const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    const handleUserData = async () => {
+      setToken(Cookies.get("token")); // التأكد من وجود الـ token
+      if (token) {
+        const data = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/users/data-user`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setUser(data.data.data.user);
+      }
+    };
+
+    const token = Cookies.get("token");
+    
+    if (token) {
+      handleUserData(); // جلب بيانات المستخدم إذا كان الـ token متاحًا
+    }
+  }, [setUser]);
+
+
+
   return (
     <UserContext.Provider value={{ user, setUser }}>
       {children}

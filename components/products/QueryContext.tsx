@@ -2,12 +2,12 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
 interface QueryContextProps {
-  qurey: string;
+  query: string;
   setQurey: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const QueryContext = createContext<QueryContextProps>({
-  qurey: "/api/eco/products?sort=price&page=1&limit=8", // قيمة افتراضية
+  query: "/api/eco/products?sort=price&page=1&limit=8", // قيمة افتراضية
   setQurey: () => {}, // دالة افتراضية فارغة
 });
 
@@ -18,10 +18,10 @@ interface QueryProviderProps {
 }
 
 export const QueryProvider: React.FC<QueryProviderProps> = ({ children }) => {
-  const [qurey, setQurey] = useState("/api/eco/products");
+  const [query, setQurey] = useState("/api/eco/products");
 
   return (
-    <QueryContext.Provider value={{ qurey, setQurey }}>
+    <QueryContext.Provider value={{ query, setQurey }}>
       {children}
     </QueryContext.Provider>
   );

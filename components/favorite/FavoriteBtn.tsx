@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Cookies from "js-cookie";
 import Loader from "../loader/Loader";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface Id {
   id: string;
@@ -26,11 +28,27 @@ const FavoriteBtn = ({ id }: Id) => {
           },
         }
       );
-
-      console.log("delete product in favorites");
+      toast.success("remove item successfully!", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        className: "bg-white text-black dark:bg-gray-800 dark:text-white",
+      });
       router.refresh();
     } catch (error) {
       console.log(error);
+      toast.error("Failed to reomve to favorites, please try again.", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        className: "bg-white text-black dark:bg-gray-800 dark:text-white",
+      });
     } finally {
       setLoading(false);
     }

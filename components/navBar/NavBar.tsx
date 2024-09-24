@@ -75,36 +75,12 @@ const NavBar = () => {
 
   const roundedTotalPrice = parseFloat(totalPrice?.toFixed(0));
 
-  useEffect(() => {
-    const handleUserData = async () => {
-      const token = Cookies.get("token"); // التأكد من وجود الـ token
-      if (token) {
-        const data = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/users/data-user`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setUser(data.data.data.user);
-      }
-    };
 
-    const token = Cookies.get("token");
-    if (token) {
-      handleUserData(); // جلب بيانات المستخدم إذا كان الـ token متاحًا
-    }
-  }, [setUser]);
-
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
 
   const handelSignOut = () => {
     Cookies.remove("token");
     setUser(null);
-    router.push("/");
+    router.refresh();
   };
 
   return (

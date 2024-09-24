@@ -1,6 +1,7 @@
 import {
   AddShoppingCartOutlined,
   BlockOutlined,
+  FavoriteBorderOutlined,
   LocalMallOutlined,
 } from "@mui/icons-material";
 import { Rating } from "@mui/material";
@@ -8,9 +9,10 @@ import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import FavoriteBtn from "../mostTrendingProducts/FavoriteBtn";
+import FavoriteBtn from "../favoriteBtn/FavoriteBtn";
 import { cookies } from "next/headers";
 import ShoppingCartBtn from "../shoppingCartFunction/ShoppingCartBtn";
+import { ToastContainer } from "react-toastify";
 
 interface Product {
   _id: string;
@@ -145,9 +147,10 @@ const Explore = async () => {
                         <p>Buy Now</p>
                         <LocalMallOutlined />
                       </Link>
-                      <button className="  flex items-center p-2 justify-between hoverEle text-white bg-red-400  font-medium rounded-lg text-sm   text-center hover:bg-red-400/60 ">
-                        <AddShoppingCartOutlined />
-                      </button>
+                      <ShoppingCartBtn
+                        isInShoppingCart={false}
+                        productId={product._id}
+                      />
                     </div>
                   )}
                 </div>

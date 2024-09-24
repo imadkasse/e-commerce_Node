@@ -10,10 +10,11 @@ import Cookies from "js-cookie";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import FavoriteBtn from "../mostTrendingProducts/FavoriteBtn";
+import FavoriteBtn from "../favoriteBtn/FavoriteBtn";
 import Skeleton from "./Skeleton";
 import { useQuery } from "./QueryContext";
 import { useRouter } from "next/navigation";
+import ShoppingCartBtn from "../shoppingCartFunction/ShoppingCartBtn";
 
 interface Product {
   _id: string;
@@ -32,11 +33,18 @@ interface FavoriteProduct {
   _id: string;
 }
 
+interface ShopCartProduct {
+  _id: string;
+}
+
 const AllProducts = () => {
-  const { qurey } = useQuery();
+  const { query } = useQuery();
+
   const [products, setProducts] = useState<Product[]>([]);
   const [favProduct, setFavorites] = useState<string[]>([]);
-  const [token, setToken] = useState<string | null>(null);
+  const [shopCartIds, setShopCartIds] = useState<string[]>([]);
+
+  const [token, setToken] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(true);
 
   const prevFavProductRef = useRef<string[]>(favProduct);
@@ -48,9 +56,21 @@ const AllProducts = () => {
       try {
         // Fetch products
         const data = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACK_URL}${qurey}`
+          `${process.env.NEXT_PUBLIC_BACK_URL}${query}`
         );
         setProducts(data.data.data.products);
+        const dataShopCart = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/products/shopCart/allItems`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const shopCartItems: ShopCartProduct[] =
+          dataShopCart.data.data.shopCart;
+        setShopCartIds(shopCartItems.map((item) => item._id));
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -59,12 +79,13 @@ const AllProducts = () => {
     };
 
     fetchData();
-  }, [qurey]);
+  }, [query, token]);
 
   useEffect(() => {
+    setToken(Cookies.get("token"));
     const handelFav = async () => {
       const tokenValue = Cookies.get("token");
-      console.log("first")
+      console.log("Fetching favorites...");
       if (tokenValue) {
         try {
           const dataFav = await axios.get(
@@ -78,9 +99,10 @@ const AllProducts = () => {
           const favoritesData = dataFav.data.data.favorites.map(
             (fav: FavoriteProduct) => fav._id
           );
+          // تحديث فقط إذا كانت البيانات مختلفة
           if (
-            JSON.stringify(favProduct).length !==
-            JSON.stringify(favoritesData).length
+            JSON.stringify(prevFavProductRef.current) !==
+            JSON.stringify(favoritesData)
           ) {
             setFavorites(favoritesData);
           }
@@ -89,17 +111,18 @@ const AllProducts = () => {
         }
       }
     };
-    handelFav();
-  }, [favProduct]);
 
-  useEffect(() => {
-    if (prevFavProductRef.current !== favProduct) {
-      // Change detected in favProduct
-      console.log("Change detected in favProduct");
-      // Change the value of prevFavProductRef
-      prevFavProductRef.current = favProduct;
-    }
-  }, [favProduct]);
+    handelFav();
+  }, []);
+
+  // useEffect(() => {
+  //   if (prevFavProductRef.current !== favProduct) {
+  //     // Change detected in favProduct
+  //     console.log("Change detected in favProduct");
+  //     // Change the value of prevFavProductRef
+  //     prevFavProductRef.current = favProduct;
+  //   }
+  // }, [favProduct]);
 
   return (
     <div className="py-14  grid xl:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-9 items-center xs:justify-items-center ">
@@ -226,9 +249,17 @@ const AllProducts = () => {
                       <p>Buy Now</p>
                       <LocalMallOutlined />
                     </Link>
-                    <button className="  flex items-center p-2 justify-between hoverEle text-white bg-red-400  font-medium rounded-lg text-sm   text-center hover:bg-red-400/60 ">
-                      <AddShoppingCartOutlined />
-                    </button>
+                    {shopCartIds.includes(product._id) ? (
+                      <ShoppingCartBtn
+                        productId={product._id}
+                        isInShoppingCart={true}
+                      />
+                    ) : (
+                      <ShoppingCartBtn
+                        productId={product._id}
+                        isInShoppingCart={false}
+                      />
+                    )}
                   </div>
                 )}
               </div>

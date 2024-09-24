@@ -6,10 +6,12 @@ import MostProducts from "@/components/mostTrendingProducts/MostProducts";
 import Headr from "@/components/navBar/Headr";
 import NavBar from "@/components/navBar/NavBar";
 import Slide from "@/components/slidProduct/Slide";
+import { ToastContainer } from "react-toastify";
 
 export default function Home() {
   return (
     <>
+      <ToastContainer />
       <NavBar />
       <Headr />
       <Slide />
