@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import Cookies from "js-cookie";
 import Loader from "../loader/Loader";
 import { useRouter } from "next/navigation";
+import { useUser } from "../login&signUp/context/user";
 
 interface Props {
   isItems: boolean;
@@ -14,6 +15,7 @@ const ShoppingCartClearBtn = ({ isItems }: Props) => {
   const token = Cookies.get("token");
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
+  const { user, setUser } = useUser();
 
   const handelDelete = async () => {
     try {
@@ -25,6 +27,13 @@ const ShoppingCartClearBtn = ({ isItems }: Props) => {
           },
         }
       );
+
+      //@ts-expect-error
+      setUser({
+        ...user,
+        shopCart: [],
+      });
+
       console.log("delete successful");
       router.refresh();
     } catch (error) {
@@ -48,7 +57,6 @@ const ShoppingCartClearBtn = ({ isItems }: Props) => {
       ) : (
         <Loader />
       )}
-      
     </div>
   );
 };

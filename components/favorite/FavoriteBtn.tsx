@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import Loader from "../loader/Loader";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useUser } from "../login&signUp/context/user";
 
 interface Id {
   id: string;
@@ -15,6 +16,7 @@ interface Id {
 const FavoriteBtn = ({ id }: Id) => {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
+  const { user, setUser } = useUser();
 
   const handelDelete = async (id: string) => {
     try {
@@ -37,6 +39,15 @@ const FavoriteBtn = ({ id }: Id) => {
         draggable: true,
         className: "bg-white text-black dark:bg-gray-800 dark:text-white",
       });
+
+      // update user in context
+      //@ts-expect-error
+      setUser({
+        ...user,
+        //@ts-expect-error
+        favorites: [...user?.favorites.filter((product) => product._id !== id)],
+      });
+
       router.refresh();
     } catch (error) {
       console.log(error);

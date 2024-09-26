@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import ShoppingCartBtn from "./ShoppingCartBtn";
+import ShoppingCartBtns from "./ShoppingCartBtns";
 import axios from "axios";
 import { cookies } from "next/headers";
 import ShoppingCartClearBtn from "./ShoppingCartClearBtn";
@@ -84,7 +84,7 @@ const ShoppingCart = async () => {
                       <div className=" w-full">
                         <h3 className="text-base font-bold ">{item.name}</h3>
                         <h6 className="text-base font-bold">${item.price}</h6>
-                        <ShoppingCartBtn />
+                        <ShoppingCartBtns id={item._id} />
                       </div>
                     </div>
                   );

@@ -12,7 +12,7 @@ import axios from "axios";
 interface Order {
   _id: string;
   products: any[];
-  date: string; 
+  date: string;
   codePromo: string | null;
   address: string;
   price: number;
@@ -25,6 +25,12 @@ interface Favorites {
   name: string;
   price: number;
 }
+interface ShoppingCart {
+  _id: string;
+  images: string[];
+  name: string;
+  price: number;
+}
 
 interface User {
   _id: string;
@@ -32,7 +38,7 @@ interface User {
   email: string;
   active: boolean;
   favorites: Favorites[];
-  shopCart: any[];
+  shopCart: ShoppingCart[];
   orders: Order[];
 }
 
@@ -68,13 +74,11 @@ const UserProvider = ({ children }: UserProviderProps) => {
     };
 
     const token = Cookies.get("token");
-    
+
     if (token) {
       handleUserData(); // جلب بيانات المستخدم إذا كان الـ token متاحًا
     }
   }, [setUser]);
-
-
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

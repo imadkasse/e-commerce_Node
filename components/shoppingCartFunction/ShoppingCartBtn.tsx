@@ -8,6 +8,7 @@ import { Button, Tooltip } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useUser } from "../login&signUp/context/user";
 
 interface Props {
   productId: string;
@@ -16,8 +17,9 @@ interface Props {
 
 const ShoppingCartBtn = ({ productId, isInShoppingCart }: Props) => {
   const token = Cookies.get("token");
-  const [loading, setLoading] = useState<boolean>(false); 
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
+  const { user, setUser } = useUser();
 
   const addToCart = async (productId: string) => {
     if (!token) {
@@ -55,6 +57,14 @@ const ShoppingCartBtn = ({ productId, isInShoppingCart }: Props) => {
         draggable: true,
         className: "bg-white text-black dark:bg-gray-800 dark:text-white",
       });
+      if (response.data.status === "success") {
+        //@ts-expect-error
+        setUser({
+          ...user,
+          //@ts-expect-error
+          shopCart: [...user?.shopCart, response.data.data.product],
+        });
+      }
       router.refresh();
     } catch (error) {
       console.error("Error adding to cart:", error);
@@ -81,7 +91,7 @@ const ShoppingCartBtn = ({ productId, isInShoppingCart }: Props) => {
           </button>
         </Tooltip>
       ) : loading ? (
-        <Loader /> 
+        <Loader />
       ) : (
         <button
           onClick={() => addToCart(productId)}

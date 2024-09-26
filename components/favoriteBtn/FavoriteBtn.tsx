@@ -16,13 +16,6 @@ type Fav = {
   productId?: string | undefined;
 };
 
-interface Favorites {
-  _id: string | undefined;
-  images: string[]; // يجب أن يكون مصفوفة صور
-  name: string;
-  price: number;
-}
-
 const FavoriteBtn = ({ isFavorite, productId }: Fav) => {
   const router = useRouter();
   const pathName = usePathname();
@@ -50,7 +43,7 @@ const FavoriteBtn = ({ isFavorite, productId }: Fav) => {
     };
 
     if (token) {
-      handleUserData(); // جلب بيانات المستخدم إذا كان الـ token متاحًا
+      handleUserData(); 
     }
   }, [token, setUser]);
 
@@ -87,11 +80,14 @@ const FavoriteBtn = ({ isFavorite, productId }: Fav) => {
         draggable: true,
         className: "bg-white text-black dark:bg-gray-800 dark:text-white",
       });
+
+      // if function is successful UPDATE the user info
       if (data.data.status === "success") {
-        // تحديث المفضلة في حالة المستخدم
+        //@ts-expect-error
         setUser({
           ...user,
-          favorites: [...user.favorites, data.data.data], // إضافة المنتج إلى المفضلة
+          //@ts-expect-error
+          favorites: [...user?.favorites, data.data.data],
         });
       }
 
