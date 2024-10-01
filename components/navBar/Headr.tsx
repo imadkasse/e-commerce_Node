@@ -2,7 +2,6 @@
 import { ArrowForwardIos } from "@mui/icons-material";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { useQuery } from "../products/QueryContext";
 
 const Headr = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -25,7 +24,6 @@ const Headr = () => {
       document.removeEventListener("click", handleOutsideClick);
     };
   }, [showMenu, showMenu2]);
-  const { qurey, setQurey } = useQuery();
   return (
     <div className="sm:px-9 xs:px-6  bg-[#304C89]   sticky top-0  w-full z-10">
       <div className="flex items-center justify-between relative gap-2">

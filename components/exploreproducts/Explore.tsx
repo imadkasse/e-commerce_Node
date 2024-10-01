@@ -13,19 +13,9 @@ import FavoriteBtn from "../favoriteBtn/FavoriteBtn";
 import { cookies } from "next/headers";
 import ShoppingCartBtn from "../shoppingCartFunction/ShoppingCartBtn";
 import { ToastContainer } from "react-toastify";
+import { Product } from "../types/product";
 
-interface Product {
-  _id: string;
-  name: string;
-  price: number;
-  description: string;
-  images: string;
-  category: string;
-  quantity: number;
-  rating: number;
-  newPrice?: number;
-  availability: boolean;
-}
+
 interface FavoriteProduct {
   _id: string;
 }

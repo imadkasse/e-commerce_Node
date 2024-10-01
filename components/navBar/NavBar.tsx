@@ -69,13 +69,12 @@ const NavBar = () => {
 
   const { user, setUser } = useUser();
 
-  const totalPrice = user?.shopCart.reduce((total, item) => {
-    return total + item.price;
-  }, 0);
+  const totalPrice =
+    user?.shopCart.reduce((total, item) => {
+      return total + item.price;
+    }, 0) ?? 0;
 
   const roundedTotalPrice = parseFloat(totalPrice?.toFixed(0));
-
-
 
   const handelSignOut = () => {
     Cookies.remove("token");

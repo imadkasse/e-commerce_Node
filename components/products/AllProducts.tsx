@@ -15,19 +15,8 @@ import Skeleton from "./Skeleton";
 import { useQuery } from "./QueryContext";
 import { useRouter } from "next/navigation";
 import ShoppingCartBtn from "../shoppingCartFunction/ShoppingCartBtn";
+import { Product } from "../types/product";
 
-interface Product {
-  _id: string;
-  name: string;
-  price: number;
-  description: string;
-  images: string;
-  category: string;
-  quantity: number;
-  rating: number;
-  newPrice?: number;
-  availability: boolean;
-}
 
 interface FavoriteProduct {
   _id: string;

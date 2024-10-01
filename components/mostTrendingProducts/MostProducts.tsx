@@ -10,24 +10,18 @@ import Link from "next/link";
 import React from "react";
 import FavoriteBtn from "../favoriteBtn/FavoriteBtn";
 import { cookies } from "next/headers";
+import ShoppingCartBtn from "../shoppingCartFunction/ShoppingCartBtn";
+import { Product } from "../types/product";
 
-interface Product {
-  _id: string;
-  name: string;
-  price: number;
-  description: string;
-  images: string;
-  category: string;
-  quantity: number;
-  rating: number;
-  newPrice?: number;
-  availability: boolean;
-}
+
 
 interface FavoriteProduct {
   _id: string;
 }
 
+interface ShopCartProduct {
+  _id: string;
+}
 const MostProducts = async () => {
   const data = await axios.get(
     `${process.env.BACK_URL}/api/eco/products?sort=price&page=1&limit=8`
@@ -145,9 +139,10 @@ const MostProducts = async () => {
                           <p>Buy Now</p>
                           <LocalMallOutlined />
                         </Link>
-                        <button className="  flex items-center p-2 justify-between hoverEle text-white bg-red-400  font-medium rounded-lg text-sm   text-center hover:bg-red-400/60 ">
-                          <AddShoppingCartOutlined />
-                        </button>
+                        <ShoppingCartBtn
+                          isInShoppingCart={false}
+                          productId={product._id}
+                        />
                       </div>
                     )}
                   </div>
@@ -179,6 +174,17 @@ const MostProducts = async () => {
   );
   const favorites: FavoriteProduct[] = dataFav.data.data.favorites;
   const favProduct = favorites.map((fav) => fav._id);
+
+  const dataShopCart = await axios.get(
+    `${process.env.BACK_URL}/api/eco/products/shopCart/allItems`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  const shopCartItems: ShopCartProduct[] = dataShopCart.data.data.shopCart;
+  const shopCartIds = shopCartItems.map((item) => item._id);
 
   return (
     <div className="px-4  sm:px-10  py-10  bg-light-background/50 dark:bg-gray-800 ">
@@ -289,9 +295,18 @@ const MostProducts = async () => {
                         <p>Buy Now</p>
                         <LocalMallOutlined />
                       </Link>
-                      <button className="  flex items-center p-2 justify-between hoverEle text-white bg-red-400  font-medium rounded-lg text-sm   text-center hover:bg-red-400/60 ">
-                        <AddShoppingCartOutlined />
-                      </button>
+                      {/* check is in Shopping Cart */}
+                      {shopCartIds.includes(product._id) ? (
+                        <ShoppingCartBtn
+                          productId={product._id}
+                          isInShoppingCart={true}
+                        />
+                      ) : (
+                        <ShoppingCartBtn
+                          productId={product._id}
+                          isInShoppingCart={false}
+                        />
+                      )}
                     </div>
                   )}
                 </div>

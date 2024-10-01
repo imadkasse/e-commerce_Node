@@ -6,19 +6,8 @@ import React from "react";
 
 import DeleteBtn from "./DeleteProduct";
 import EditProduct from "./EditProduct";
+import { Product } from "@/components/types/product";
 
-interface Product {
-  _id: string;
-  name: string;
-  description: string;
-  newPrice?: number;
-  price: number;
-  rating: number;
-  quantity: number;
-  images?: string;
-  category?: string;
-  availability?: boolean;
-}
 
 const Products = async () => {
   const data = await axios.get(`${process.env.BACK_URL}/api/eco/products`);

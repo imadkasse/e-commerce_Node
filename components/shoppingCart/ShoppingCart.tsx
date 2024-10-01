@@ -5,13 +5,9 @@ import ShoppingCartBtns from "./ShoppingCartBtns";
 import axios from "axios";
 import { cookies } from "next/headers";
 import ShoppingCartClearBtn from "./ShoppingCartClearBtn";
+import { ShopCartItems } from "../types/shoppingCart";
 
-interface ShopCartItems {
-  _id: string;
-  name: string;
-  price: number;
-  image: string[];
-}
+
 
 const ShoppingCart = async () => {
   const CookiesStore = cookies();
