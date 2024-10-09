@@ -1,14 +1,65 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { ReactElement, useEffect, useState } from "react";
+import Profile from "./profile/Profile";
+import MyOrders from "./myOrders/MyOrders";
+import {
+  ArrowForwardIosOutlined,
+  ModeEdit,
+  Password,
+  Person,
+  PersonOutlined,
+  ShoppingBag,
+  ShoppingBagOutlined,
+} from "@mui/icons-material";
+import Dashboard from "./home/Home";
+import Edit from "./editProfile/Edit";
+import ChangePassword from "./changePassword/ChangePassword";
+import Cookies from "js-cookie";
+import { ToastContainer } from "react-toastify";
 
 const SideBarUser = () => {
   const path = usePathname();
   const pathName = path.split("/");
+  const [component, setComponent] = useState<ReactElement | null>(
+    <Dashboard />
+  );
+
+  const handleComponentChange = (newComponent: ReactElement) => {
+    setComponent(newComponent);
+  };
+
+  const [isSidebarOpen, setSidebarOpen] = useState<boolean>(true);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!isSidebarOpen);
+  };
+
+  const token = Cookies.get("token");
+  // if user not logged in
+  if (!token) {
+    return (
+      <div className="px-6 md:px-10 h-screen  bg-white text-light-text dark:text-dark-text bg-light-background/50 dark:bg-gray-800 py-4">
+        <div className="w-full  h-full flex  justify-center items-center ">
+          <Link
+            href="/login"
+            className="text-4xl flex flex-col text-center gap-3"
+          >
+            You Are Not Loggin
+            <span className="hover:text-red-400 hoverEle">
+              Please Click Here To Log In
+            </span>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className=" h-[5000px]   bg-light-background/50 dark:bg-gray-800 px-6  md:px-10 text-light-text dark:text-dark-text">
-      <nav className="flex py-4" aria-label="Breadcrumb">
+    <div className="relative bg-light-background/50 dark:bg-gray-800 px-6 md:px-10 text-light-text dark:text-dark-text">
+      
+      <div className="flex py-4 ">
         <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
           <li className="inline-flex items-center">
             <Link
@@ -69,37 +120,150 @@ const SideBarUser = () => {
                 />
               </svg>
               <span className="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">
-                Flowbite
+                {
+                  //@ts-ignore
+                  component?.type.name.toLowerCase()
+                }
               </span>
             </div>
           </li>
         </ol>
-      </nav>
+      </div>
 
-      <section className="sticky top-16 w-60 h-screen transition-transform -translate-x-full sm:translate-x-0">
-        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-          <ul className="space-y-2 font-medium">
-            <li>
-              <Link
-                href="#"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-              >
-                <svg
-                  className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 22 21"
+      <div className="flex md:flex-row xs:flex-col gap-7  ">
+        <nav
+          className={` md:w-60 xs:w-full h-[71vh]  border-r-2 border-gray-400 rounded-lg bg-gray-50 dark:bg-gray-800 md:bg-gray-50 md:dark:bg-gray-800   `}
+        >
+          <div className="h-full px-3 py-4 overflow-y-auto">
+            <ul className="space-y-2 font-medium">
+              <li>
+                <button
+                  onClick={() => {
+                    handleComponentChange(<Dashboard />);
+                  }}
+                  className={`w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white  hover:bg-gray-100 dark:hover:bg-gray-700 group ${
+                    //@ts-ignore
+                    component?.type.name === "Dashboard"
+                      ? "bg-gray-100 dark:bg-gray-700"
+                      : ""
+                  }`}
                 >
-                  <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
-                  <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
-                </svg>
-                <span className="ms-3">Dashboard</span>
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </section>
+                  <svg
+                    className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    viewBox="0 0 22 21"
+                  >
+                    <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
+                    <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
+                  </svg>
+                  <span className="ms-3">Dashboard</span>
+                </button>
+              </li>
+
+              <li>
+                <button
+                  onClick={() => {
+                    handleComponentChange(<Profile />);
+                  }}
+                  className={`w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white  hover:bg-gray-100 dark:hover:bg-gray-700 group ${
+                    //@ts-ignore
+                    component?.type.name === "Profile"
+                      ? "bg-gray-100 dark:bg-gray-700"
+                      : ""
+                  }`}
+                >
+                  <Person
+                    fontSize="medium"
+                    className=" text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  />
+                  <span className="ms-3">Profile</span>
+                </button>
+              </li>
+
+              <li>
+                <button
+                  onClick={() => {
+                    handleComponentChange(<MyOrders />);
+                  }}
+                  className={`w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
+                    //@ts-ignore
+                    component?.type.name === "MyOrders"
+                      ? "bg-gray-100 dark:bg-gray-700"
+                      : ""
+                  }`}
+                >
+                  <ShoppingBag
+                    fontSize="medium"
+                    className=" text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  />
+                  <span className="ms-3">Orders</span>
+                </button>
+              </li>
+
+              <li>
+                <button
+                  onClick={() => {
+                    handleComponentChange(<Edit />);
+                  }}
+                  className={`w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white  hover:bg-gray-100 dark:hover:bg-gray-700 group ${
+                    //@ts-ignore
+                    component?.type.name === "Edit"
+                      ? "bg-gray-100 dark:bg-gray-700"
+                      : ""
+                  }`}
+                >
+                  <ModeEdit
+                    fontSize="medium"
+                    className=" text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  />
+                  <span className="ms-3">Edit</span>
+                </button>
+              </li>
+
+              <li>
+                <button
+                  onClick={() => {
+                    handleComponentChange(<ChangePassword />);
+                  }}
+                  className={`w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white  hover:bg-gray-100 dark:hover:bg-gray-700 group ${
+                    //@ts-ignore
+                    component?.type.name === "ChangePassword"
+                      ? "bg-gray-100 dark:bg-gray-700"
+                      : ""
+                  }`}
+                >
+                  <Password
+                    fontSize="medium"
+                    className=" text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  />
+                  <span className="ms-3">Change Password</span>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <section
+          className={` p-7 relative ${
+            isSidebarOpen ? "ml-0 flex-grow" : "ml-4 flex-grow"
+          } `}
+        >
+          {isSidebarOpen ? (
+            ""
+          ) : (
+            <button
+              className=" p-2 text-sm bg-gray-200 dark:bg-gray-700 rounded-lg"
+              onClick={toggleSidebar}
+            >
+              <ArrowForwardIosOutlined fontSize="small" />
+            </button>
+          )}
+
+          {component}
+        </section>
+      </div>
     </div>
   );
 };

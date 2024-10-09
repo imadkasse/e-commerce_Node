@@ -20,7 +20,7 @@ const Login = () => {
 
   const [loading, setLoading] = useState<boolean>(true);
 
-  const [email, setEmail] = useState<string>("NEW2322@gm.com");
+  const [email, setEmail] = useState<string>("Admin17@gm.com");
   const [password, setPassword] = useState<string>("kasseImad");
 
   useEffect(() => {
@@ -49,14 +49,15 @@ const Login = () => {
           password: password,
         }
       );
-      const token = data.data.token;
 
-      Cookies.set("token", token); // تعيين كوكيز توقيت 7 أيام
-      // تسجيل الدخول بنجاح، لا حاجة لقراءة الـ token هنا
+      const token = data.data.token;
+      Cookies.set("token", token);
+
       console.log("Login successful!");
       router.push("/");
     } catch (error) {
       console.log(error);
+      router.refresh();
     } finally {
       setLoading(false);
     }

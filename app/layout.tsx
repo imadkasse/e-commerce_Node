@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/ToggleMode/context/Theme";
 import NavBar from "@/components/navBar/NavBar";
 import Headr from "@/components/navBar/Headr";
 import UserProvider from "@/components/login&signUp/context/user";
+import ScrollToTopButton from "@/components/scrollToTop/ScrollToTopBtn";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,9 +21,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className && ""}>
+      <body className={inter.className && ""} >
         <ThemeProvider>
-          <UserProvider>{children}</UserProvider>
+          <UserProvider>
+            {children}
+            <ScrollToTopButton />
+          </UserProvider>
         </ThemeProvider>
       </body>
     </html>

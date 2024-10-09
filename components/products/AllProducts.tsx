@@ -17,7 +17,6 @@ import { useRouter } from "next/navigation";
 import ShoppingCartBtn from "../shoppingCartFunction/ShoppingCartBtn";
 import { Product } from "../types/product";
 
-
 interface FavoriteProduct {
   _id: string;
 }
@@ -36,17 +35,22 @@ const AllProducts = () => {
   const [token, setToken] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const prevFavProductRef = useRef<string[]>(favProduct);
-
-  const router = useRouter();
+  useEffect(() => {
+    const tokenFromCookies = Cookies.get("token");
+    if (tokenFromCookies) {
+      setToken(tokenFromCookies);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!token) return;
       try {
         // Fetch products
         const data = await axios.get(
           `${process.env.NEXT_PUBLIC_BACK_URL}${query}`
         );
+
         setProducts(data.data.data.products);
         const dataShopCart = await axios.get(
           `${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/products/shopCart/allItems`,
@@ -71,7 +75,6 @@ const AllProducts = () => {
   }, [query, token]);
 
   useEffect(() => {
-    setToken(Cookies.get("token"));
     const handelFav = async () => {
       const tokenValue = Cookies.get("token");
       console.log("Fetching favorites...");
@@ -89,29 +92,15 @@ const AllProducts = () => {
             (fav: FavoriteProduct) => fav._id
           );
           // تحديث فقط إذا كانت البيانات مختلفة
-          if (
-            JSON.stringify(prevFavProductRef.current) !==
-            JSON.stringify(favoritesData)
-          ) {
-            setFavorites(favoritesData);
-          }
+
+          setFavorites(favoritesData);
         } catch (error) {
           console.error("Error fetching favorite products:", error);
         }
       }
     };
-
     handelFav();
   }, []);
-
-  // useEffect(() => {
-  //   if (prevFavProductRef.current !== favProduct) {
-  //     // Change detected in favProduct
-  //     console.log("Change detected in favProduct");
-  //     // Change the value of prevFavProductRef
-  //     prevFavProductRef.current = favProduct;
-  //   }
-  // }, [favProduct]);
 
   return (
     <div className="py-14  grid xl:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-9 items-center xs:justify-items-center ">

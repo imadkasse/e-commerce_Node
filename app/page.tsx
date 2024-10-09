@@ -5,6 +5,7 @@ import Footer from "@/components/footer/Footer";
 import MostProducts from "@/components/mostTrendingProducts/MostProducts";
 import Headr from "@/components/navBar/Headr";
 import NavBar from "@/components/navBar/NavBar";
+import ScrollToTopButton from "@/components/scrollToTop/ScrollToTopBtn";
 import Slide from "@/components/slidProduct/Slide";
 import { ToastContainer } from "react-toastify";
 

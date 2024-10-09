@@ -22,6 +22,7 @@ const FavoriteBtn = ({ isFavorite, productId }: Fav) => {
   const [loading, setLoading] = useState<boolean>(true);
   const { user, setUser } = useUser();
   const [token, setToken] = useState<string | undefined>(undefined);
+
   useEffect(() => {
     const newToken = Cookies.get("token");
     setToken(newToken);
@@ -38,12 +39,12 @@ const FavoriteBtn = ({ isFavorite, productId }: Fav) => {
             },
           }
         );
-        setUser(data.data.data.user); // تحديث حالة المستخدم في الـ Context
+        setUser(data.data.data.user);
       }
     };
 
     if (token) {
-      handleUserData(); 
+      handleUserData();
     }
   }, [token, setUser]);
 

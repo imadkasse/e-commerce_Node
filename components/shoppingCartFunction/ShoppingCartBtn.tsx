@@ -35,7 +35,7 @@ const ShoppingCartBtn = ({ productId, isInShoppingCart }: Props) => {
       return;
     }
 
-    setLoading(true); // تبدأ عملية التحميل
+    setLoading(true);
 
     try {
       const response = await axios.post(
@@ -65,6 +65,7 @@ const ShoppingCartBtn = ({ productId, isInShoppingCart }: Props) => {
           shopCart: [...user?.shopCart, response.data.data.product],
         });
       }
+
       router.refresh();
     } catch (error) {
       console.error("Error adding to cart:", error);
