@@ -3,24 +3,51 @@ import { Favorite, FavoriteBorderOutlined } from "@mui/icons-material";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { usePathname, useRouter } from "next/navigation";
-
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Loader from "../loader/Loader";
-
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useUser } from "../login&signUp/context/user";
 
 type Fav = {
-  isFavorite: boolean; // Initial favorite status, set to false by default if not provided.
+  isFavorite: boolean; // Initial favorite status
   productId?: string | undefined;
 };
+
 const FavoriteBtnClient = ({ isFavorite, productId }: Fav) => {
   const router = useRouter();
+  const pathName = usePathname();
+  const [loading, setLoading] = useState<boolean>(false);
+  const { user, setUser } = useUser();
+  const [token, setToken] = useState<string | undefined>(undefined);
+  const [favPro, setFavPro] = useState<boolean>(isFavorite);
 
-  const token = Cookies.get("token");
+  useEffect(() => {
+    const newToken = Cookies.get("token");
+    setToken(newToken);
+  }, []);
+
+  useEffect(() => {
+    const handleUserData = async () => {
+      if (token) {
+        const data = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/users/data-user`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setUser(data.data.data.user);
+      }
+    };
+
+    if (token) {
+      handleUserData();
+    }
+  }, [token, setUser]);
 
   const addProductToFavorites = async (productId: string | undefined) => {
-    console.log("first 1");
     if (!token) {
       toast.error("You need to be logged in to add to favorites!", {
         position: "top-center",
@@ -31,9 +58,9 @@ const FavoriteBtnClient = ({ isFavorite, productId }: Fav) => {
         draggable: true,
         className: "bg-white text-black dark:bg-gray-800 dark:text-white",
       });
-
       return;
     }
+    setLoading(true);
     try {
       const data = await axios.post(
         `${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/products/favorite/${productId}`,
@@ -44,10 +71,40 @@ const FavoriteBtnClient = ({ isFavorite, productId }: Fav) => {
           },
         }
       );
+      toast.success("Added to favorites!", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        className: "bg-white text-black dark:bg-gray-800 dark:text-white",
+      });
 
-      router.refresh();
+      // Update user's favorites and component state
+      if (data.data.status === "success") {
+        //@ts-expect-error
+        setUser({
+          ...user,
+          //@ts-expect-error
+          favorites: [...user?.favorites, data.data.data],
+        });
+      }
+      setFavPro(true);
+      router.refresh(); // Optionally refresh the page to sync state
     } catch (error) {
+      toast.error("Failed to add to favorites!", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        className: "bg-white text-black dark:bg-gray-800 dark:text-white",
+      });
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -55,6 +112,12 @@ const FavoriteBtnClient = ({ isFavorite, productId }: Fav) => {
     <>
       <div className="absolute z-0 top-0 p-5 right-0">
         {isFavorite ? (
+          <button disabled>
+            <Favorite className="fill-red-400" />
+          </button>
+        ) : loading ? (
+          <Loader />
+        ) : favPro ? (
           <button disabled>
             <Favorite className="fill-red-400" />
           </button>

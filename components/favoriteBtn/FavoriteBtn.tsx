@@ -91,7 +91,7 @@ const FavoriteBtn = ({ isFavorite, productId }: Fav) => {
           favorites: [...user?.favorites, data.data.data],
         });
       }
-
+      console.log("is fav from function:", isFavorite);
       router.refresh();
     } catch (error) {
       toast.error("Failed to add to favorites!", {

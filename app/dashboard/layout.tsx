@@ -5,7 +5,7 @@ import Index from "@/components/dashboard/Index";
 import NavBar from "@/components/dashboard/NavBar";
 import SideBar from "@/components/dashboard/SideBar";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -19,12 +19,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={inter.className && " bg-gray-50 dark:bg-gray-800 h-[5000px]"}
-      >
+      <body className={inter.className}>
         <SidebarProvider>
           <NavBar />
-          <div className="flex">
+          <div className="flex" suppressHydrationWarning>
             <SideBar />
             {children}
           </div>

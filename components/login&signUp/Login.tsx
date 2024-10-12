@@ -20,7 +20,7 @@ const Login = () => {
 
   const [loading, setLoading] = useState<boolean>(true);
 
-  const [email, setEmail] = useState<string>("Admin17@gm.com");
+  const [email, setEmail] = useState<string>("Admin1@gm.com");
   const [password, setPassword] = useState<string>("kasseImad");
 
   useEffect(() => {

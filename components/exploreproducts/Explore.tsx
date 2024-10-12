@@ -183,22 +183,7 @@ const Explore = async () => {
   const favorites: FavoriteProduct[] = dataFav.data.data.favorites;
   const favProduct = favorites.map((fav) => fav._id);
 
-  const addToCart = async (productId: string) => {
-    try {
-      const data = await axios.post(
-        `${process.env.BACK_URL}/api/eco/products/shopCart/${productId}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log("add to cart successfully ");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
 
   return (
     <div className="px-4  sm:px-10  py-10  bg-light-background/50 dark:bg-gray-800 relative">

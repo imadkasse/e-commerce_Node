@@ -1,22 +1,32 @@
 "use client";
 import React, { useState } from "react";
 import { useQuery } from "./QueryContext";
+import { Range, getTrackBackground } from "react-range";
 
 const FillterData = () => {
   const { query, setQurey } = useQuery();
-  const [category, setCategory] = useState<string>("");
+  const [category, setCategory] = useState<string>("all-category");
   const [rating, setRating] = useState<number>(0);
+  const [minPrice, setMinPrice] = useState<number>(0);
+  const [maxPrice, setMaxPrice] = useState<number>(500);
+
+  const STEP = 1;
+  const MIN = 0;
+  const MAX = 500;
 
   const handelFlilter = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(rating);
-    setQurey(`/api/eco/products?rating[gte]=${rating}&${category}`);
-
+    setQurey(
+      `/api/eco/products?rating[gte]=${rating}${
+        category === "all-category" ? "" : `&category=${category}`
+      }&price[gte]=${minPrice}&price[lte]=${maxPrice}`
+    );
     console.log(query);
   };
 
   return (
-    <div className="w-[350px] h-screen sticky top-16 border">
+    <div className=" xs:w-full  col-span-1  h-screen md:sticky md:top-16 border-r-2 rounded-xl">
       <section className="p-4 bg-gray-100 dark:bg-gray-800">
         <div className="flex flex-col gap-6">
           {/* عنوان الفلترة */}
@@ -46,46 +56,73 @@ const FillterData = () => {
                 name="category"
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-gray-200"
               >
-                <option value="">All Category</option>
-                <option value="category=Electronics">Electronics</option>
-                <option value="category=Clothing">Clothing</option>
-                <option value="category=Home-Kitchen">Home & Kitchen</option>
-                <option value="category=Books">Books</option>
-                <option value="category=Sports-Outdoors">
-                  Sports & Outdoors
-                </option>
+                <option value="all-category">All Category</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Home-Kitchen">Home & Kitchen</option>
+                <option value="Books">Books</option>
+                <option value="Sports-Outdoors">Sports & Outdoors</option>
               </select>
             </div>
 
             {/*  الفلترة حسب السعر    */}
             <div>
-              <label
-                htmlFor="price"
-                className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300"
-              >
-                rating
-              </label>
-              <input
-                type="range"
-                id="price"
-                name="price"
-                min="0"
-                max="1000"
-                step="1"
-                className="w-full focus-within:bg-red-500"
-              />
-              <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mt-1">
-                <span>0</span>
-                <span>1000</span>
+              <h1 className="text-lg font-semibold text-gray-800 dark:text-gray-300 mb-4">
+                Price Range
+              </h1>
+
+              <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mt-2">
+                <span>Min Price: ${minPrice}</span>
+                <span>Max Price: ${maxPrice}</span>
               </div>
+
+              <Range
+                values={[minPrice, maxPrice]}
+                step={STEP}
+                min={MIN}
+                max={MAX}
+                onChange={(values) => {
+                  setMinPrice(values[0]);
+                  setMaxPrice(values[1]);
+                }}
+                renderTrack={({ props, children }) => (
+                  <div
+                    {...props}
+                    style={{
+                      ...props.style,
+                      height: "6px",
+                      width: "100%",
+                      background: getTrackBackground({
+                        values: [minPrice, maxPrice],
+                        colors: ["#ccc", "#548BF4", "#ccc"],
+                        min: MIN,
+                        max: MAX,
+                      }),
+                      marginTop: "16px",
+                    }}
+                    className="rounded-md"
+                  >
+                    {children}
+                  </div>
+                )}
+                renderThumb={({ props, index }) => (
+                  <div
+                    {...props}
+                    style={{
+                      ...props.style,
+                      height: "20px",
+                      width: "20px",
+                      backgroundColor: "#548BF4",
+                      borderRadius: "50%",
+                    }}
+                  ></div>
+                )}
+              />
             </div>
 
             {/* الفلترة حسب العلامة التقييم */}
             <div>
-              <label
-                htmlFor="rating"
-                className="flex justify-between items-center py-2 text-sm font-medium text-gray-700 dark:text-gray-300"
-              >
+              <label className="flex justify-between items-center py-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                 <h1>rating</h1>
                 <p>{rating}</p>
               </label>
@@ -118,7 +155,7 @@ const FillterData = () => {
                 type="submit"
                 className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
               >
-                فلترة
+                Filter
               </button>
             </div>
           </form>
