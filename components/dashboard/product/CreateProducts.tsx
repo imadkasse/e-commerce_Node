@@ -1,4 +1,5 @@
 "use client";
+import Cookies from "js-cookie";
 import { AddOutlined } from "@mui/icons-material";
 import { Alert, Snackbar, SnackbarCloseReason } from "@mui/material";
 import axios from "axios";
@@ -7,6 +8,8 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const CreateProducts = () => {
+  const token = Cookies.get("token-admin");
+
   const [open, setOpen] = useState(false);
 
   const handleClick = () => {
@@ -54,6 +57,9 @@ const CreateProducts = () => {
       console.log(error);
     }
   };
+  if (!token) {
+    return <div className=""></div>;
+  }
   return (
     <div className="py-2 flex justify-end">
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>

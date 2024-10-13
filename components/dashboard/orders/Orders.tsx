@@ -8,7 +8,7 @@ import { Order } from "@/components/types/orderProduct";
 
 const Orders = async () => {
   const cookieStore = cookies();
-  const token = cookieStore.get("token")?.value;
+  const token = cookieStore.get("token-admin")?.value;
 
   let orders: Order[] = [];
 
@@ -27,25 +27,42 @@ const Orders = async () => {
       console.error("Error fetching orders");
     }
   };
+  if (!token) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen">
+        <h2 className="text-2xl text-gray-700 dark:text-white">
+          You are not authorized to access this page
+        </h2>
+        <p className="text-gray-600 dark:text-gray-300">
+          Please
+          <Link
+            href="/dashboard/login-admin"
+            className="text-red-400 hover:underline"
+          >
+            login as admin
+          </Link>
+          to continue.
+        </p>
+      </div>
+    );
+  }
 
-  await fetchOrders();
+  if (token) {
+    await fetchOrders();
+  }
 
   return (
     <>
       {orders.length > 0 ? (
-        <div className=" overflow-auto shadow-md sm:rounded-lg ">
+        <div className=" overflow-auto shadow-md sm:rounded-lg  ">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
-                <th scope="col" className="p-4">
-                  <div className="flex items-center sr-only">
-                    <input
-                      id="checkbox-all-search"
-                      type="checkbox"
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                    />
-                    <label className="sr-only">checkbox</label>
-                  </div>
+                <th
+                  scope="row"
+                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                  username & email
                 </th>
                 <th scope="col" className="px-6 py-3">
                   Product name
@@ -66,24 +83,26 @@ const Orders = async () => {
                     key={order._id}
                     className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                   >
-                    <td className="w-4 p-4">
-                      <div className="flex items-center">
-                        <input
-                          id="checkbox-table-search-1"
-                          type="checkbox"
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                        />
-                        <label className="sr-only">checkbox</label>
-                      </div>
-                    </td>
-
                     <th
                       scope="row"
                       className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                     >
-                      order.
+                      {order.username} |
+                      <span className="text-gray-400">{order.email}</span>
                     </th>
-                    <td className="px-6 py-4">$2999</td>
+                    <th
+                      scope="row"
+                      className="px-6 py-4 flex flex-col gap-1 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    >
+                      {order.products.map((product,index) => {
+                        return (
+                          <div className="" key={product._id}>
+                            <h1><span className="pr-2">{index+1}-</span>{product.name}</h1>
+                          </div>
+                        );
+                      })}
+                    </th>
+                    <td className="px-6 py-4">${order.price}</td>
                     <td className="px-6 py-4 text-center">
                       <Link
                         href="#"
@@ -173,16 +192,7 @@ const Orders = async () => {
           </nav>
         </div>
       ) : (
-        <div className="px-6 md:px-10 h-[70vh]  bg-white text-light-text dark:text-dark-text bg-light-background/50 dark:bg-gray-800 py-4">
-          <div className="w-full  h-full flex  justify-center items-center ">
-            <Link href="/" className="text-4xl flex flex-col text-center gap-3">
-              You do not have permission to access this
-              <span className="hover:text-red-400 hoverEle">
-                Please Click Here To Go Home Page
-              </span>
-            </Link>
-          </div>
-        </div>
+        ""
       )}
     </>
   );

@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import DeleteBtn from "./DeleteBtn";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 interface User {
   _id: string;
@@ -12,8 +14,32 @@ interface User {
 }
 
 const Users = async () => {
+  const cookieStore = cookies();
+  const token = cookieStore.get("token-admin")?.value;
+
   const data = await axios.get(`${process.env.BACK_URL}/api/eco/users`);
   const users: User[] = data.data.data.users;
+
+  if (!token) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen">
+        <h2 className="text-2xl text-gray-700 dark:text-white">
+          You are not authorized to access this page
+        </h2>
+        <p className="text-gray-600 dark:text-gray-300">
+          Please
+          <Link
+            href="/dashboard/login-admin"
+            className="text-red-400 hover:underline"
+          >
+            login as admin
+          </Link>
+          to continue.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 ">
@@ -60,7 +86,6 @@ const Users = async () => {
                 <td className="px-6 py-4">Admin</td>
 
                 <td className="px-6 py-4 text-center">
-                  
                   <DeleteBtn id={user._id} />
                 </td>
               </tr>

@@ -5,4 +5,6 @@ export interface Order {
   date: string;
   price: number;
   products: any[];
+  username: string;
+  email: string;
 }

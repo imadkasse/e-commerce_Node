@@ -1,4 +1,7 @@
 import axios from "axios";
+import { cookies } from "next/headers";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 import React from "react";
 
 interface UserTotal {
@@ -10,6 +13,28 @@ interface ProductTotal {
 }
 
 const Home = async () => {
+  const cookieStore = cookies();
+  const token = cookieStore.get("token-admin")?.value;
+
+  if (!token) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen">
+        <h2 className="text-2xl text-gray-700 dark:text-white">
+          You are not authorized to access this page
+        </h2>
+        <p className="text-gray-600 dark:text-gray-300">
+          Please
+          <Link
+            href="/dashboard/login-admin"
+            className="text-red-400 hover:underline"
+          >
+            login as admin
+          </Link>
+          to continue.
+        </p>
+      </div>
+    );
+  }
   const dataProduct = await axios.get(
     `${process.env.BACK_URL}/api/eco/products`
   );

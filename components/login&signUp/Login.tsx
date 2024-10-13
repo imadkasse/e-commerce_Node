@@ -122,10 +122,9 @@ const Login = () => {
           <div className="flex items-start mb-5">
             <div className="flex items-center h-5">
               <h3 className="text-sm px-1 font-semibold">
-                {" "}
-                don`t have a Account{" "}
+                don`t have a Account
                 <Link href={"/signup"} className="text-blue-400">
-                  singUp{" "}
+                  singUp
                 </Link>
               </h3>
             </div>

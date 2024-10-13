@@ -7,14 +7,38 @@ import React from "react";
 import DeleteBtn from "./DeleteProduct";
 import EditProduct from "./EditProduct";
 import { Product } from "@/components/types/product";
-
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 const Products = async () => {
+  const cookieStore = cookies();
+  const token = cookieStore.get("token-admin")?.value;
+
   const data = await axios.get(`${process.env.BACK_URL}/api/eco/products`);
   const products: Product[] = data.data.data.products;
-  
+
+  if (!token) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen">
+        <h2 className="text-2xl text-gray-700 dark:text-white">
+          You are not authorized to access this page
+        </h2>
+        <p className="text-gray-600 dark:text-gray-300">
+          Please
+          <Link
+            href="/dashboard/login-admin"
+            className="text-red-400 hover:underline"
+          >
+            login as admin
+          </Link>
+          to continue.
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <div className=" overflow-x-auto  shadow-md sm:rounded-lg">
+    <div className=" overflow-x-auto  shadow-md sm:rounded-lg ">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>

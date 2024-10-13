@@ -6,6 +6,7 @@ import { useSidebar } from "./context/sidebarCont";
 
 const SideBar = () => {
   const { isOpen, toggleSidebar } = useSidebar();
+  
 
   return (
     <div className="md:static xs:fixed ">
