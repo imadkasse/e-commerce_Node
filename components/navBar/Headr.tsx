@@ -97,7 +97,6 @@ const Headr = () => {
               >
                 Books
               </Link>
-              
             </div>
             <div className="hover:bg-red-400 h-10  flex items-center hoverEle group relative">
               <Link
@@ -106,7 +105,6 @@ const Headr = () => {
               >
                 Sports & Outdoors
               </Link>
-              
             </div>
           </div>
         )}
