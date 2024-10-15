@@ -6,8 +6,7 @@ import axios from "axios";
 import { cookies } from "next/headers";
 import ShoppingCartClearBtn from "./ShoppingCartClearBtn";
 import { ShopCartItems } from "../types/shoppingCart";
-
-
+import Checkout from "./Checkout";
 
 const ShoppingCart = async () => {
   const CookiesStore = cookies();
@@ -38,6 +37,8 @@ const ShoppingCart = async () => {
     }
   );
   const shopCartItems: ShopCartItems[] = data.data.data.shopCart;
+
+  const shopCartIds = shopCartItems.map((item) => item._id);
 
   const totalPrice = shopCartItems.reduce((total, item) => {
     return total + item.price;
@@ -90,51 +91,11 @@ const ShoppingCart = async () => {
         </div>
 
         {/* Price and promo code  */}
-        <div className="bg-gray-100 dark:bg-gray-700 rounded-md p-4 md:sticky top-0">
-          <div className="flex border border-gray-100 focus-within:border-red-400 hoverEle overflow-hidden rounded-md">
-            <input
-              type="text"
-              placeholder="Promo code"
-              className="w-full outline-none bg-gray-100 dark:bg-gray-700 text-sm px-4 py-2.5"
-            />
-            <button
-              type="button"
-              className="flex items-center justify-center font-semibold tracking-wide bg-red-400 hover:bg-red-400/60 hoverEle px-4 text-sm text-white"
-            >
-              Apply
-            </button>
-          </div>
-
-          <ul className=" mt-8 space-y-4">
-            <li className="flex flex-wrap gap-4 text-base">
-              Discount <span className="ml-auto font-bold">$0.00</span>
-            </li>
-            <li className="flex flex-wrap gap-4 text-base">
-              Shipping <span className="ml-auto font-bold">$2.00</span>
-            </li>
-            <li className="flex flex-wrap gap-4 text-base">
-              Tax <span className="ml-auto font-bold">$4.00</span>
-            </li>
-            <li className="flex flex-wrap gap-4 text-base font-bold">
-              Total <span className="ml-auto">${roundedTotalPrice}</span>
-            </li>
-          </ul>
-
-          <div className="mt-8 flex flex-col gap-3 text-center">
-            <button
-              type="button"
-              className="text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-red-400 hover:bg-red-400/60 hoverEle text-white rounded-md"
-            >
-              Checkout
-            </button>
-            <Link
-              href={"/"}
-              className="text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-transparent text-red-400 hover:text-white  hover:bg-red-400 border border-red-400 hoverEle rounded-md"
-            >
-              Continue Shopping
-            </Link>
-          </div>
-        </div>
+        <Checkout
+          totalPrice={roundedTotalPrice}
+          discount={0}
+          ids={shopCartIds}
+        />
       </div>
     </div>
   );

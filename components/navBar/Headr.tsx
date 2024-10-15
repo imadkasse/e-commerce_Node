@@ -25,7 +25,7 @@ const Headr = () => {
     };
   }, [showMenu, showMenu2]);
   return (
-    <div className="sm:px-9 xs:px-6  bg-[#304C89]   sticky top-0  w-full z-10">
+    <div className="sm:px-9 xs:px-6  bg-[#304C89] hidden  sticky top-0  w-full z-10">
       <div className="flex items-center justify-between relative gap-2">
         <div>
           <div className="ar-dropdown flex relative">

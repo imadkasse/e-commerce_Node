@@ -3,12 +3,15 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { Order } from "@/components/types/orderProduct";
+import DeleteOrderBtn from "./DeleteOrderBtn";
 
 const MyOrders = () => {
   const [orders, setOrders] = useState<Order[]>();
   const [count, setCount] = useState<number>(0);
+
+  const token = Cookies.get("token");
+
   useEffect(() => {
-    const token = Cookies.get("token");
     const fetchOrders = async () => {
       try {
         const data = await axios.get(
@@ -25,7 +28,8 @@ const MyOrders = () => {
     };
 
     fetchOrders();
-  }, []);
+  }, [token]);
+
   return (
     <div className="w-full  overflow-x-auto shadow-md sm:rounded-lg">
       <table className="w-full text-sm text-left rtl:text-right ">
@@ -42,6 +46,9 @@ const MyOrders = () => {
             </th>
             <th scope="col" className="px-6 py-3">
               Price
+            </th>
+            <th scope="col" className="px-6 py-3 text-center">
+              Actions
             </th>
           </tr>
         </thead>
@@ -61,6 +68,9 @@ const MyOrders = () => {
                   {order.date.slice(0, 10)}
                 </td>
                 <td className="px-6 py-4">${order.price}</td>
+                <td className="px-6 py-4 text-center">
+                  <DeleteOrderBtn id={order._id} />
+                </td>
               </tr>
             );
           })}

@@ -13,7 +13,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import Skeleton from "./Skeleton";
 import { useQuery } from "./QueryContext";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import ShoppingCartBtnClient from "../shoppingCartFunction/ShoppingCartBtnClient";
 import { Product } from "../types/product";
 import FavoriteBtnClient from "../favoriteBtn/FavoriteBtnClient";
@@ -33,6 +33,8 @@ const AllProducts = () => {
   const [favProduct, setFavorites] = useState<string[]>([]);
   const [shopCartIds, setShopCartIds] = useState<string[]>([]);
 
+  const pathName = usePathname();
+
   const [token, setToken] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -41,7 +43,8 @@ const AllProducts = () => {
     if (tokenFromCookies) {
       setToken(tokenFromCookies);
     }
-  }, []);
+    console.log(pathName);
+  }, [pathName]);
 
   useEffect(() => {
     const fetchData = async () => {

@@ -58,7 +58,6 @@ const SideBarUser = () => {
 
   return (
     <div className="relative bg-light-background/50 dark:bg-gray-800 px-6 md:px-10 text-light-text dark:text-dark-text">
-      
       <div className="flex py-4 ">
         <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
           <li className="inline-flex items-center">
@@ -149,7 +148,12 @@ const SideBarUser = () => {
                   }`}
                 >
                   <svg
-                    className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    className={`text-gray-500 w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white ${
+                      //@ts-ignore
+                      component?.type.name === "Dashboard"
+                        ? "dark:text-white text-gray-900 "
+                        : ""
+                    }`}
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
@@ -176,7 +180,12 @@ const SideBarUser = () => {
                 >
                   <Person
                     fontSize="medium"
-                    className=" text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    className={`text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white ${
+                      //@ts-ignore
+                      component?.type.name === "Profile"
+                        ? "dark:text-white text-gray-900 "
+                        : ""
+                    }`}
                   />
                   <span className="ms-3">Profile</span>
                 </button>
@@ -190,13 +199,18 @@ const SideBarUser = () => {
                   className={`w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
                     //@ts-ignore
                     component?.type.name === "MyOrders"
-                      ? "bg-gray-100 dark:bg-gray-700"
+                      ? "bg-gray-100 dark:bg-gray-700 "
                       : ""
                   }`}
                 >
                   <ShoppingBag
                     fontSize="medium"
-                    className=" text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    className={`text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white ${
+                      //@ts-ignore
+                      component?.type.name === "MyOrders"
+                        ? "dark:text-white text-gray-900 "
+                        : ""
+                    }`}
                   />
                   <span className="ms-3">Orders</span>
                 </button>
@@ -216,7 +230,12 @@ const SideBarUser = () => {
                 >
                   <ModeEdit
                     fontSize="medium"
-                    className=" text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    className={`text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white ${
+                      //@ts-ignore
+                      component?.type.name === "Edit"
+                        ? "dark:text-white text-gray-900 "
+                        : ""
+                    }`}
                   />
                   <span className="ms-3">Edit</span>
                 </button>
@@ -236,7 +255,12 @@ const SideBarUser = () => {
                 >
                   <Password
                     fontSize="medium"
-                    className=" text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    className={`text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white ${
+                      //@ts-ignore
+                      component?.type.name === "ChangePassword"
+                        ? "dark:text-white text-gray-900 "
+                        : ""
+                    }`}
                   />
                   <span className="ms-3">Change Password</span>
                 </button>
