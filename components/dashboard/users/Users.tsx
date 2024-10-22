@@ -11,6 +11,7 @@ interface User {
   _id: string;
   username: string;
   email: string;
+  role: string;
 }
 
 const Users = async () => {
@@ -83,7 +84,7 @@ const Users = async () => {
                     </div>
                   </div>
                 </th>
-                <td className="px-6 py-4">Admin</td>
+                <td className="px-6 py-4">{user.role}</td>
 
                 <td className="px-6 py-4 text-center">
                   <DeleteBtn id={user._id} />
