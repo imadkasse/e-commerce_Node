@@ -26,7 +26,7 @@ const MostProducts = async () => {
   const data = await axios.get(
     `${process.env.BACK_URL}/api/eco/products?sort=price&page=1&limit=8`
   );
-  const products: Product[] = data.data.data.products;
+  const products: Product[] = data.data.data.data;
 
   const cookieStore = cookies();
   const token = cookieStore.get("token")?.value;

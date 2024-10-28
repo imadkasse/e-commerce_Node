@@ -53,10 +53,8 @@ const Login = () => {
       const token = data.data.token;
       Cookies.set("token", token);
 
-      console.log("Login successful!");
       router.push("/");
     } catch (error) {
-      console.log(error);
       router.refresh();
     } finally {
       setLoading(false);

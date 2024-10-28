@@ -64,29 +64,33 @@ const ShoppingCart = async () => {
           <div className="space-y-4 ">
             {/* Items  */}
 
-            {shopCartItems.length > 0
-              ? shopCartItems.map((item) => {
-                  return (
-                    <div className="flex items-center gap-4  " key={item._id}>
-                      <div className="w-24 h-24 shrink-0 bg-white p-2 rounded-md">
-                        <Image
-                          src="/imgs/1.png"
-                          width={150}
-                          height={150}
-                          alt="img"
-                          className="w-full h-full object-contain"
-                        />
-                      </div>
-
-                      <div className=" w-full">
-                        <h3 className="text-base font-bold ">{item.name}</h3>
-                        <h6 className="text-base font-bold">${item.price}</h6>
-                        <ShoppingCartBtns id={item._id} />
-                      </div>
+            {shopCartItems.length > 0 ? (
+              shopCartItems.map((item) => {
+                return (
+                  <div className="flex items-center gap-4  " key={item._id}>
+                    <div className="w-24 h-24 shrink-0 bg-white p-2 rounded-md">
+                      <Image
+                        src="/imgs/1.png"
+                        width={150}
+                        height={150}
+                        alt="img"
+                        className="w-full h-full object-contain"
+                      />
                     </div>
-                  );
-                })
-              : ""}
+
+                    <div className=" w-full">
+                      <h3 className="text-base font-bold ">{item.name}</h3>
+                      <h6 className="text-base font-bold">${item.price}</h6>
+                      <ShoppingCartBtns id={item._id} />
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <h1 className="text-red-400 w-full  text-4xl capitalize text-center">
+                not any product
+              </h1>
+            )}
           </div>
         </div>
 

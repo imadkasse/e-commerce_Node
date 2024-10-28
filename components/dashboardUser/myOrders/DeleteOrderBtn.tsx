@@ -41,7 +41,6 @@ const DeleteOrderBtn = ({ id }: Props) => {
       router.push('/dashboard-user')
       router.refresh();
     } catch (error) {
-      console.log(error);
       toast.error("oops, an error occurred while deleting", {
         position: "top-center",
         autoClose: 3000,

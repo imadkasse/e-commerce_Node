@@ -31,7 +31,6 @@ const LoginDashboard = () => {
       );
 
       if (data.data.data.user.role === "admin") {
-        console.log(data.data.data.user.role);
 
         toast.success("login successfully!", {
           position: "top-center",
@@ -51,7 +50,6 @@ const LoginDashboard = () => {
         router.push("/dashboard/");
         router.refresh();
       } else {
-        console.log("you are not a admin !");
         toast.error(
           "you are not a admin, please go to /login to login for users",
           {
@@ -66,7 +64,6 @@ const LoginDashboard = () => {
         );
       }
     } catch (error) {
-      console.log(error);
       toast.error("oops an error, please try again.", {
         position: "top-center",
         autoClose: 3000,

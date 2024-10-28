@@ -34,7 +34,6 @@ const ShoppingCartClearBtn = ({ isItems }: Props) => {
         shopCart: [],
       });
 
-      console.log("delete successful");
       router.refresh();
     } catch (error) {
       console.log(error);

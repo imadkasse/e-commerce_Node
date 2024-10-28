@@ -65,7 +65,7 @@ const MyOrders = () => {
                 ></th>
                 <td className="px-6 py-4">{order.address}</td>
                 <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-                  {order.date.slice(0, 10)}
+                  {order.date.slice(0,10)}
                 </td>
                 <td className="px-6 py-4">${order.price}</td>
                 <td className="px-6 py-4 text-center">

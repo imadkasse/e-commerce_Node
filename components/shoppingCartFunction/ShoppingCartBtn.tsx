@@ -68,7 +68,6 @@ const ShoppingCartBtn = ({ productId, isInShoppingCart }: Props) => {
 
       router.refresh();
     } catch (error) {
-      console.error("Error adding to cart:", error);
       toast.error("Failed to add to cart, please try again.", {
         position: "top-center",
         autoClose: 3000,

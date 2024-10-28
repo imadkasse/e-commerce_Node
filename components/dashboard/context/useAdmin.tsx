@@ -36,7 +36,7 @@ const AdminProvider = ({ children }: AdminProviderProps) => {
       setTokenAdmin(Cookies.get("token-admin"));
       if (token) {
         const data = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/users/data-user`,
+          `${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/users/me`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

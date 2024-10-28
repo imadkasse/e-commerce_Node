@@ -42,7 +42,6 @@ const ChangePassword = () => {
       setPassword("");
       setPasswordConfirmed("");
     } catch (error) {
-      console.log(error);
       toast.error("Failed to Update password, please try again.", {
         position: "top-center",
         autoClose: 3000,

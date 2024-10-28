@@ -19,7 +19,7 @@ const Users = async () => {
   const token = cookieStore.get("token-admin")?.value;
 
   const data = await axios.get(`${process.env.BACK_URL}/api/eco/users`);
-  const users: User[] = data.data.data.users;
+  const users: User[] = data.data.data.data;
 
   if (!token) {
     return (

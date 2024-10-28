@@ -15,7 +15,7 @@ const Products = async () => {
   const token = cookieStore.get("token-admin")?.value;
 
   const data = await axios.get(`${process.env.BACK_URL}/api/eco/products`);
-  const products: Product[] = data.data.data.products;
+  const products: Product[] = data.data.data.data;
 
   if (!token) {
     return (

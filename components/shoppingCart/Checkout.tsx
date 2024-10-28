@@ -45,7 +45,6 @@ const Checkout = ({ discount, totalPrice, ids }: Props) => {
       });
       setAddress("");
     } catch (error) {
-      console.log(error);
       toast.error("oops an error occurred", {
         position: "top-center",
         autoClose: 3000,

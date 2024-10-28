@@ -32,7 +32,7 @@ const FavoriteBtn = ({ isFavorite, productId }: Fav) => {
     const handleUserData = async () => {
       if (token) {
         const data = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/users/data-user`,
+          `${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/users/me`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -91,7 +91,6 @@ const FavoriteBtn = ({ isFavorite, productId }: Fav) => {
           favorites: [...user?.favorites, data.data.data],
         });
       }
-      console.log("is fav from function:", isFavorite);
       router.refresh();
     } catch (error) {
       toast.error("Failed to add to favorites!", {
@@ -103,7 +102,6 @@ const FavoriteBtn = ({ isFavorite, productId }: Fav) => {
         draggable: true,
         className: "bg-white text-black dark:bg-gray-800 dark:text-white",
       });
-      console.log(error);
     } finally {
       setLoading(false);
     }

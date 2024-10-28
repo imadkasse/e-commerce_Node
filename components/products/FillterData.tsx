@@ -16,13 +16,11 @@ const FillterData = () => {
 
   const handelFlilter = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(rating);
     setQurey(
       `/api/eco/products?rating[gte]=${rating}${
         category === "all-category" ? "" : `&category=${category}`
       }&price[gte]=${minPrice}&price[lte]=${maxPrice}`
     );
-    console.log(query);
   };
 
   return (

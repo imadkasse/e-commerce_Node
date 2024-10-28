@@ -66,12 +66,10 @@ const ShoppingCartBtnClient = ({ productId, isInShoppingCart }: Props) => {
           shopCart: [...user?.shopCart, response.data.data.product],
         });
       }
-      console.log(shopPro);
       setShopPro(true);
 
       router.refresh();
     } catch (error) {
-      console.error("Error adding to cart:", error);
       toast.error("Failed to add to cart, please try again.", {
         position: "top-center",
         autoClose: 3000,

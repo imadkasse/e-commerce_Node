@@ -16,7 +16,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
       const savedTheme = localStorage.getItem("theme");
       if (savedTheme) {
         setTheme(savedTheme);
-        console.log(savedTheme); // استرجاع القيمة من localStorage إذا كانت موجودة
+        // استرجاع القيمة من localStorage إذا كانت موجودة
       }
     }
   }, []);

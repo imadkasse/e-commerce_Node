@@ -43,7 +43,6 @@ const AllProducts = () => {
     if (tokenFromCookies) {
       setToken(tokenFromCookies);
     }
-    console.log(pathName);
   }, [pathName]);
 
   useEffect(() => {
@@ -54,7 +53,7 @@ const AllProducts = () => {
           `${process.env.NEXT_PUBLIC_BACK_URL}${query}`
         );
 
-        setProducts(data.data.data.products);
+        setProducts(data.data.data.data);
         if (!token) return;
         const dataShopCart = await axios.get(
           `${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/products/shopCart/allItems`,
@@ -81,7 +80,6 @@ const AllProducts = () => {
   useEffect(() => {
     const handelFav = async () => {
       const tokenValue = Cookies.get("token");
-      console.log("Fetching favorites...");
       if (tokenValue) {
         try {
           const dataFav = await axios.get(

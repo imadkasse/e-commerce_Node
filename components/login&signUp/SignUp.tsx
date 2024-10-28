@@ -62,7 +62,6 @@ const SignUp = () => {
       );
       const token = data.data.token;
       Cookies.set("token", token, { expires: 7 });
-      console.log("Signup successful!");
       router.push("/");
     } catch (error) {
       console.log(error);

@@ -62,7 +62,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
       setToken(Cookies.get("token")); // التأكد من وجود الـ token
       if (token) {
         const data = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/users/data-user`,
+          `${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/users/me`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

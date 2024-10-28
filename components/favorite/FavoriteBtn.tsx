@@ -21,7 +21,6 @@ const FavoriteBtn = ({ id }: Id) => {
   const handelDelete = async (id: string) => {
     try {
       const token = Cookies.get("token");
-      console.log(token);
       await axios.delete(
         `${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/products/favorite/${id}`,
         {
@@ -50,7 +49,6 @@ const FavoriteBtn = ({ id }: Id) => {
 
       router.refresh();
     } catch (error) {
-      console.log(error);
       toast.error("Failed to reomve to favorites, please try again.", {
         position: "top-center",
         autoClose: 3000,

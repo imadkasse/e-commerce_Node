@@ -69,6 +69,9 @@ const NavBar = () => {
 
   const { user, setUser } = useUser();
 
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
   const totalPrice =
     user?.shopCart.reduce((total, item) => {
       return total + item.price;
@@ -84,7 +87,7 @@ const NavBar = () => {
 
   return (
     <header className=" text-light-text dark:text-dark-text flex flex-col gap-5 bg-light-background/50 dark:bg-gray-800">
-      <section className="bg-[#004d66] min-h-[40px] px-4 py-2 sm:px-10 flex items-center max-sm:flex-col">
+      <section className="bg-[#004d66] min-h-[40px] px-4 py-2 sm:px-10 flex items-center max-sm:flex-col ">
         <button type="button" className="text-white text-sm flex items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -119,16 +122,19 @@ const NavBar = () => {
           <div>contact</div>
         </div>
       </section>
-      <div className="flex flex-col gap-5 ">
+      <div className="flex flex-col    gap-5  ">
         <nav className=" border-gray-200   py-2.5  px-6 ">
           <div className="flex items-center sm:justify-center md:justify-between flex-wrap sm:gap-4 xs:gap-3 xs:justify-center">
-            <Link href="/" className="flex items-center">
+            <Link
+              href="/"
+              className="flex items-center  justify-center   mr-3 "
+            >
               <Image
-                src="https://flowbite.com/docs/images/logo.svg"
-                width={50}
-                height={50}
-                className="mr-3 h-6 xs:h-9"
-                alt="Flowbite Logo"
+                src="/imgs/logo.png"
+                width={100}
+                height={100}
+                className=" w-full h-full  "
+                alt="Logo"
               />
             </Link>
             <div className="grow">

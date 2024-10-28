@@ -10,6 +10,7 @@ import Cookies from "js-cookie";
 import { useUser } from "../login&signUp/context/user";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import Loader from "../loader/Loader";
 
 interface Props {
   id: string;
@@ -27,7 +28,6 @@ const ShoppingCartBtn = ({ id }: Props) => {
   };
 
   const [loading, setLoading] = useState<boolean>(false);
-
   const token = Cookies.get("token");
   const { user, setUser } = useUser();
   const router = useRouter();
@@ -45,6 +45,7 @@ const ShoppingCartBtn = ({ id }: Props) => {
       });
       return;
     }
+    setLoading(true);
     try {
       await axios.delete(
         `${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/products/shopCart/${id}`,
@@ -71,7 +72,6 @@ const ShoppingCartBtn = ({ id }: Props) => {
       });
       router.refresh();
     } catch (error) {
-      console.log(error);
       toast.error("Failed to add to cart, please try again.", {
         position: "top-center",
         autoClose: 3000,
@@ -81,6 +81,8 @@ const ShoppingCartBtn = ({ id }: Props) => {
         draggable: true,
         className: "bg-white text-black dark:bg-gray-800 dark:text-white",
       });
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -103,8 +105,13 @@ const ShoppingCartBtn = ({ id }: Props) => {
         onClick={() => {
           removeHandler(id);
         }}
+        disabled={loading} // تعطيل الزر أثناء التحميل
       >
-        <DeleteOutlined />
+        {loading ? (
+          <Loader /> // يمكنك استخدام Loader هنا
+        ) : (
+          <DeleteOutlined />
+        )}
       </button>
     </div>
   );

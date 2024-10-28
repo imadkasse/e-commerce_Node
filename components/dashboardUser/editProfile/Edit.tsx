@@ -49,7 +49,6 @@ const Edit = () => {
       });
       router.refresh();
     } catch (error) {
-      console.log(error);
       toast.error("Failed to Update user, please try again.", {
         position: "top-center",
         autoClose: 3000,

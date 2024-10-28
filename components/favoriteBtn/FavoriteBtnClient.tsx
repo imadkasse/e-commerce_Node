@@ -31,7 +31,7 @@ const FavoriteBtnClient = ({ isFavorite, productId }: Fav) => {
     const handleUserData = async () => {
       if (token) {
         const data = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/users/data-user`,
+          `${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/users/me`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -102,7 +102,6 @@ const FavoriteBtnClient = ({ isFavorite, productId }: Fav) => {
         draggable: true,
         className: "bg-white text-black dark:bg-gray-800 dark:text-white",
       });
-      console.log(error);
     } finally {
       setLoading(false);
     }

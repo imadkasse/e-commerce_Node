@@ -35,10 +35,7 @@ const NavBar = () => {
     };
   }, [showUserMenu]);
 
-  useEffect(() => {
-    console.log(admin);
-    console.log(token);
-  }, [admin, token]);
+
 
   const { isOpen, toggleSidebar } = useSidebar();
 
