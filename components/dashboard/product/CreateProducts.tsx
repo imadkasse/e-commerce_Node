@@ -36,10 +36,43 @@ const CreateProducts = () => {
   const [price, setPrice] = useState<number>();
   const [rating, setRating] = useState<number>();
   const [quantity, setQuantity] = useState<number>();
-  const [image, setImage] = useState<string>("");
+  const [image, setImage] = useState<File | null>(null);
 
   const handelCreate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    let imageUrl = "";
+    if (image) {
+      const formData = new FormData();
+      formData.append("image", image);
+      console.log("Selected image:", image);
+
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/upload`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        // تحقق مما إذا كانت الاستجابة تحتوي على رابط الصورة
+        if (response.data.url) {
+          imageUrl = response.data.url;
+          console.log("Image URL:", imageUrl);
+        } else {
+          console.error("Image URL not found in response");
+          return; // توقف إذا لم يتم العثور على الرابط
+        }
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        return; // أخرج من الدالة إذا كان هناك خطأ
+      }
+    }
+
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/products`, {
         name: name,
@@ -48,7 +81,7 @@ const CreateProducts = () => {
         price: price,
         quantity: quantity,
         category: category,
-        images: image,
+        images: imageUrl,
       });
       handleClick();
       setToggle(false);
@@ -183,10 +216,12 @@ const CreateProducts = () => {
 
                 <div>
                   <input
-                    type="text"
-                    value={image}
+                    type="file"
+                    accept="image/*" // تأكد من قبول الصور فقط
                     onChange={(e) => {
-                      setImage(e.target.value);
+                      if (e.target.files) {
+                        setImage(e.target.files[0]); // حفظ الصورة المحددة
+                      }
                     }}
                     placeholder="images"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"

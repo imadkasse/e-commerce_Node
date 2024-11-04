@@ -37,6 +37,7 @@ interface User {
   username: string;
   email: string;
   active: boolean;
+  role: string;
   favorites: Favorites[];
   shopCart: ShoppingCart[];
   orders: Order[];

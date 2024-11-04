@@ -11,6 +11,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Loader from "../loader/Loader";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   type Theme = null | boolean;
@@ -18,7 +20,7 @@ const Login = () => {
 
   const [darkMode, setDarkMode] = useState<Theme>(null);
 
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [email, setEmail] = useState<string>("Admin1@gm.com");
   const [password, setPassword] = useState<string>("kasseImad");
@@ -40,7 +42,7 @@ const Login = () => {
 
   const handelLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
       const data = await axios.post(
         `${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/users/login`,
@@ -50,10 +52,21 @@ const Login = () => {
         }
       );
 
-      const token = data.data.token;
-      Cookies.set("token", token);
-
-      router.push("/");
+      if (data.data.data.user.role === "user") {
+        const token = data.data.token;
+        Cookies.set("token", token);
+        router.push("/");
+      } else {
+        toast.error("You are not authorized to access this page!", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          className: "bg-white text-black dark:bg-gray-800 dark:text-white",
+        });
+      }
     } catch (error) {
       router.refresh();
     } finally {
@@ -130,12 +143,12 @@ const Login = () => {
           <button
             type="submit"
             className={`text-white  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center  ${
-              loading
+              !loading
                 ? "dark:bg-dark-buttonPrimary dark:hover:bg-dark-buttonPrimary/80 hoverEle bg-light-buttonPrimary hover:bg-light-buttonPrimary/80"
                 : "cursor-not-allowed dark:bg-dark-buttonPrimary/80  bg-light-buttonPrimary/80"
             } `}
           >
-            {loading ? <h1>Sign Up</h1> : <Loader />}
+            {loading ? <Loader /> : <h1>Sign Up</h1>}
           </button>
         </form>
       </div>

@@ -80,8 +80,8 @@ const ShoppingCart = async () => {
 
                     <div className=" w-full">
                       <h3 className="text-base font-bold ">{item.name}</h3>
-                      <h6 className="text-base font-bold">${item.price}</h6>
-                      <ShoppingCartBtns id={item._id} />
+                      {/* <h6 className="text-base font-bold">${item.price}</h6> */}
+                      <ShoppingCartBtns id={item._id} price={item.price} />
                     </div>
                   </div>
                 );
@@ -96,7 +96,7 @@ const ShoppingCart = async () => {
 
         {/* Price and promo code  */}
         <Checkout
-          totalPrice={roundedTotalPrice}
+          allPrice={roundedTotalPrice}
           discount={0}
           ids={shopCartIds}
         />

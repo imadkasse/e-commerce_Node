@@ -10,9 +10,10 @@ import Cookies from "js-cookie";
 
 type Props = {
   id: string;
+  fetchOrders: () => void;
 };
 
-const DeleteOrderBtn = ({ id }: Props) => {
+const DeleteOrderBtn = ({ id, fetchOrders }: Props) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -38,7 +39,8 @@ const DeleteOrderBtn = ({ id }: Props) => {
         draggable: true,
         className: "bg-white text-black dark:bg-gray-800 dark:text-white",
       });
-      router.push('/dashboard-user')
+      fetchOrders();
+
       router.refresh();
     } catch (error) {
       toast.error("oops, an error occurred while deleting", {

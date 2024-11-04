@@ -70,7 +70,7 @@ const Products = async () => {
                   <Image
                     width={500}
                     height={150}
-                    src="/imgs/1.png"
+                    src={product.images[0]}
                     className="w-16 md:w-32 max-w-full max-h-full"
                     alt="Apple Watch"
                   />

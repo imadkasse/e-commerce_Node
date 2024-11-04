@@ -1,20 +1,25 @@
 "use client";
 import axios from "axios";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useTotalPrice } from "./context/price";
 
 type Props = {
   discount: number;
-  totalPrice: number;
+  allPrice: number;
   ids: string[];
 };
 
-const Checkout = ({ discount, totalPrice, ids }: Props) => {
+const Checkout = ({ discount, ids, allPrice }: Props) => {
   const [address, setAddress] = useState("");
   const [loading, setLoading] = useState(false);
+  const { totalPrice, setTotalPrice } = useTotalPrice();
+  useEffect(() => {
+    setTotalPrice(allPrice);
+  }, [allPrice, setTotalPrice]);
 
   const token = Cookies.get("token");
 
@@ -45,7 +50,8 @@ const Checkout = ({ discount, totalPrice, ids }: Props) => {
       });
       setAddress("");
     } catch (error) {
-      toast.error("oops an error occurred", {
+      //@ts-ignore
+      toast.error(error.response.data.message, {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: true,
@@ -101,13 +107,16 @@ const Checkout = ({ discount, totalPrice, ids }: Props) => {
           Tax <span className="ml-auto font-bold">$4.00</span>
         </li>
         <li className="flex flex-wrap gap-4 text-base font-bold">
-          Total <span className="ml-auto">${totalPrice}</span>
+          Total <span className="ml-auto">${totalPrice.toFixed(2)}</span>
         </li>
       </ul>
 
       <div className="mt-8 flex flex-col gap-3 text-center">
         {loading ? (
-          <button type="submit" className="disabled:opacity-50 text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-red-400 hover:bg-red-400/60 hoverEle text-white rounded-md">
+          <button
+            type="submit"
+            className="disabled:opacity-50 text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-red-400 hover:bg-red-400/60 hoverEle text-white rounded-md"
+          >
             Loading...
           </button>
         ) : (

@@ -3,10 +3,11 @@ import { Home, HomeMax, ShoppingBag } from "@mui/icons-material";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useSidebar } from "./context/sidebarCont";
+import { usePathname } from "next/navigation";
 
 const SideBar = () => {
   const { isOpen, toggleSidebar } = useSidebar();
-  
+  const pathName = usePathname();
 
   return (
     <div className="md:static xs:fixed ">
@@ -21,28 +22,56 @@ const SideBar = () => {
             <li>
               <Link
                 href="/dashboard/"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 group"
+                className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white ${
+                  pathName === "/dashboard"
+                    ? "bg-gray-100 dark:bg-gray-600"
+                    : "hover:bg-gray-100 dark:hover:bg-gray-600"
+                }  group`}
               >
-                <Home className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                <Home
+                  className={`w-5 h-5 text-gray-500 transition duration-75 ${
+                    pathName === "/dashboard"
+                      ? "text-gray-900 dark:text-white"
+                      : "group-hover:text-gray-900 dark:group-hover:text-white"
+                  } dark:text-gray-400 `}
+                />
                 <span className="ms-3">Home</span>
               </Link>
             </li>
             <li>
               <Link
                 href="/dashboard/orders"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 group"
+                className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white ${
+                  pathName === "/dashboard/orders"
+                    ? "bg-gray-100 dark:bg-gray-600"
+                    : "hover:bg-gray-100 dark:hover:bg-gray-600"
+                }  group`}
               >
-                <ShoppingBag className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                <ShoppingBag
+                  className={`w-5 h-5 text-gray-500 transition duration-75 ${
+                    pathName === "/dashboard/orders"
+                      ? "text-gray-900 dark:text-white"
+                      : "group-hover:text-gray-900 dark:group-hover:text-white"
+                  } dark:text-gray-400 `}
+                />
                 <span className="ms-3">Orders</span>
               </Link>
             </li>
             <li>
               <Link
                 href="/dashboard/users"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 group"
+                className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white ${
+                  pathName === "/dashboard/users"
+                    ? "bg-gray-100 dark:bg-gray-600"
+                    : "hover:bg-gray-100 dark:hover:bg-gray-600"
+                }  group`}
               >
                 <svg
-                  className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  className={`w-5 h-5 text-gray-500 transition duration-75 ${
+                    pathName === "/dashboard/users"
+                      ? "text-gray-900 dark:text-white"
+                      : "group-hover:text-gray-900 dark:group-hover:text-white"
+                  } dark:text-gray-400 `}
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
                   viewBox="0 0 20 18"
@@ -55,10 +84,18 @@ const SideBar = () => {
             <li>
               <Link
                 href="/dashboard/products"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 group"
+                className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white ${
+                  pathName === "/dashboard/products"
+                    ? "bg-gray-100 dark:bg-gray-600"
+                    : "hover:bg-gray-100 dark:hover:bg-gray-600"
+                }  group`}
               >
                 <svg
-                  className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  className={`w-5 h-5 text-gray-500 transition duration-75 ${
+                    pathName === "/dashboard/products"
+                      ? "text-gray-900 dark:text-white"
+                      : "group-hover:text-gray-900 dark:group-hover:text-white"
+                  } dark:text-gray-400 `}
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
                   viewBox="0 0 18 20"

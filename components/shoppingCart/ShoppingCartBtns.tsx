@@ -5,32 +5,46 @@ import {
   RemoveOutlined,
 } from "@mui/icons-material";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useUser } from "../login&signUp/context/user";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import Loader from "../loader/Loader";
+import { useTotalPrice } from "./context/price";
 
 interface Props {
   id: string;
+  price: number;
 }
 
-const ShoppingCartBtn = ({ id }: Props) => {
+const ShoppingCartBtn = ({ id, price }: Props) => {
   const [amount, setAmount] = useState<number>(1);
-  const addHandler = () => {
-    setAmount(amount + 1);
-  };
-  const minusHandler = () => {
-    if (amount > 0) {
-      setAmount(amount - 1);
-    }
-  };
 
   const [loading, setLoading] = useState<boolean>(false);
   const token = Cookies.get("token");
   const { user, setUser } = useUser();
   const router = useRouter();
+
+  // edit total price
+  const { totalPrice, setTotalPrice } = useTotalPrice();
+
+  const amountPrice = price * amount;
+
+  const addHandler = () => {
+    setAmount(amount + 1);
+    setTotalPrice(totalPrice + price);
+    console.log(totalPrice);
+  };
+
+  const minusHandler = () => {
+    if (amount > 1) {
+      // لتجنب أن يصبح العدد صفرًا
+      setAmount(amount - 1);
+      setTotalPrice(totalPrice - price);
+      console.log(totalPrice);
+    }
+  };
 
   const removeHandler = async (id: string) => {
     if (!token) {
@@ -87,7 +101,7 @@ const ShoppingCartBtn = ({ id }: Props) => {
   };
   return (
     <div className="flex justify-between mt-4">
-      <div>
+      <div className="flex items-center flex-grow  justify-between pr-6">
         <div className="flex items-center px-2.5 py-1.5 border border-gray-300  text-xs outline-none bg-transparent rounded-md">
           <button className="" onClick={minusHandler}>
             <RemoveOutlined fontSize="small" />
@@ -99,6 +113,9 @@ const ShoppingCartBtn = ({ id }: Props) => {
             <AddOutlined fontSize="small" />
           </button>
         </div>
+        <span className="text-gray-800 dark:text-gray-200 font-bold">
+          {amountPrice} USD
+        </span>
       </div>
       <button
         className="hover:text-red-400 hoverEle"
