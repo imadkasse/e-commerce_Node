@@ -91,5 +91,5 @@ const MyOrders = () => {
     </div>
   );
 };
-
+MyOrders.displayName = "MyOrders";
 export default MyOrders;

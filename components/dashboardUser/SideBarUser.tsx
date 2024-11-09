@@ -55,8 +55,7 @@ const SideBarUser = () => {
       </div>
     );
   }
-  //@ts-ignore
-  console.log(component?.type.name.toLowerCase());
+
   return (
     <div className="relative bg-light-background/50 dark:bg-gray-800 px-6 md:px-10 text-light-text dark:text-dark-text">
       <div className="flex py-4 ">
@@ -122,7 +121,7 @@ const SideBarUser = () => {
               <span className="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">
                 {
                   //@ts-ignore
-                  component?.type.name.toLowerCase()
+                  component?.type.displayName.toLowerCase()
                 }
               </span>
             </div>

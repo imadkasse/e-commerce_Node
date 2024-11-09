@@ -14,5 +14,5 @@ const Dashboard = () => {
     </div>
   );
 };
-
+Dashboard.displayName = "Dashboard";
 export default Dashboard;

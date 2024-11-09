@@ -29,5 +29,5 @@ const Profile = () => {
     </div>
   );
 };
-
+Profile.displayName = "Profile";
 export default Profile;

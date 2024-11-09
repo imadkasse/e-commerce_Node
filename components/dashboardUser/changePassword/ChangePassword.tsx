@@ -113,5 +113,5 @@ const ChangePassword = () => {
     </div>
   );
 };
-
+ChangePassword.displayName = "Change Password";
 export default ChangePassword;

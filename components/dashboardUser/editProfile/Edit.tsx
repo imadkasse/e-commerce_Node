@@ -112,4 +112,6 @@ const Edit = () => {
   );
 };
 
+Edit.displayName = "Edit";
+
 export default Edit;
