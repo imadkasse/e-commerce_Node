@@ -60,7 +60,7 @@ const Favorite = async () => {
                         width={150}
                         height={150}
                         alt="imgFav"
-                        src="/imgs/1.png"
+                        src={favorite.images[0]}
                         className="w-full h-full object-contain"
                       />
                     </div>
@@ -91,7 +91,13 @@ const Favorite = async () => {
         ) : (
           <h1 className="text-white">Not any Product </h1>
         )}
-        {favorites.length === 0 ? <h1 className="text-red-400 text-4xl col-span-4 text-center ">Not any Product</h1> : ""}
+        {favorites.length === 0 ? (
+          <h1 className="text-red-400 text-4xl col-span-4 text-center ">
+            Not any Product
+          </h1>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

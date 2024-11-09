@@ -144,8 +144,8 @@ const AllProducts = () => {
                   }`}
                 >
                   <Image
-                    className="p-1 rounded-xl hover:scale-105 hoverEle  "
-                    src="/imgs/products/prod1.jpg"
+                    className="p-3 rounded-xl hover:scale-105 hoverEle  dark:bg-white bg-gray-300 "
+                    src={product.images[0]}
                     alt="product image"
                     width={500}
                     height={500}

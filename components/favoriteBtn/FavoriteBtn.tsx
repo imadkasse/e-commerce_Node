@@ -93,6 +93,7 @@ const FavoriteBtn = ({ isFavorite, productId }: Fav) => {
       }
       router.refresh();
     } catch (error) {
+      console.log(error)
       toast.error("Failed to add to favorites!", {
         position: "top-center",
         autoClose: 3000,

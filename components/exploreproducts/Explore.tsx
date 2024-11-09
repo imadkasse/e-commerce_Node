@@ -200,7 +200,7 @@ const Explore = async () => {
             >
               <div className="relative">
                 <Link
-                  className={`w-full group ${
+                  className={`w-full  group ${
                     !product.availability ? "disabled" : ""
                   }`}
                   href={`${
@@ -208,8 +208,8 @@ const Explore = async () => {
                   }`}
                 >
                   <Image
-                    className="p-1 rounded-xl w-full hover:scale-105 hoverEle  "
-                    src="/imgs/products/prod1.jpg"
+                    className="p-3 rounded-xl  w-full hover:scale-105 hoverEle dark:bg-white bg-gray-300  "
+                    src={product.images[0]}
                     alt="product image"
                     width={500}
                     height={500}

@@ -97,7 +97,7 @@ const AddReview = ({ id }: Props) => {
           />
         </div>
         <button type="submit" className="  flex justify-end  rounded-md mt-2">
-          <h1 className="border-2 border-red-500 bg-red-500 text-white py-2 px-4 rounded-md mt-2">
+          <h1 className=" bg-red-500 hoverEle hover:bg-red-600/60 text-white py-2 px-4 rounded-md mt-2">
             Add
           </h1>
         </button>

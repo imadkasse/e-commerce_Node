@@ -70,7 +70,7 @@ const ShoppingCart = async () => {
                   <div className="flex items-center gap-4  " key={item._id}>
                     <div className="w-24 h-24 shrink-0 bg-white p-2 rounded-md">
                       <Image
-                        src="/imgs/1.png"
+                        src={item.images[0]}
                         width={150}
                         height={150}
                         alt="img"
@@ -95,11 +95,7 @@ const ShoppingCart = async () => {
         </div>
 
         {/* Price and promo code  */}
-        <Checkout
-          allPrice={roundedTotalPrice}
-          discount={0}
-          ids={shopCartIds}
-        />
+        <Checkout allPrice={roundedTotalPrice} discount={0} ids={shopCartIds} />
       </div>
     </div>
   );
