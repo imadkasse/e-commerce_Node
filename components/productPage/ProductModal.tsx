@@ -163,6 +163,9 @@ const ProductModal: React.FC<Id> = async ({ id }) => {
               <div className="flex flex-wrap gap-4 mt-8">
                 <p className=" text-3xl font-bold">${product.price}</p>
               </div>
+              <div className="my-5">
+                <h2 className="text-md ">{product.description}</h2>
+              </div>
 
               <div className="flex flex-wrap gap-4 mt-8">
                 <button className="min-w-[200px] px-4 py-3 flex items-center justify-evenly bg-red-400 hover:bg-red-400/60 hoverEle text-white text-sm font-semibold rounded">
