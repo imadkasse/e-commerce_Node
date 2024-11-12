@@ -72,7 +72,7 @@ const Users = async () => {
                     width={500}
                     height={150}
                     className="w-10 h-10 rounded-full"
-                    src="/imgs/1.png"
+                    src="/imgs/user.png"
                     alt="Jese image"
                   />
                   <div className="ps-3">
@@ -84,7 +84,13 @@ const Users = async () => {
                     </div>
                   </div>
                 </th>
-                <td className="px-6 py-4">{user.role}</td>
+                <td
+                  className={`px-6 py-4 ${
+                    user.role === "admin" ? "font-bold text-red-700" : ""
+                  }`}
+                >
+                  {user.role}
+                </td>
 
                 <td className="px-6 py-4 text-center">
                   <DeleteBtn id={user._id} />

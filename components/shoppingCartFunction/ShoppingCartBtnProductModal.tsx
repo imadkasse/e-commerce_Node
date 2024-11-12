@@ -89,7 +89,7 @@ const ShoppingCartBtnProductModal = ({
     <>
       {isInShoppingCart ? (
         <Tooltip title="Already in Shopping Cart" placement="top">
-          <button className="bg-red-400/60 cursor-not-allowed flex items-center gap-3 p-2 justify-between text-white font-medium rounded-lg text-sm hover:bg-red-400/60">
+          <button className="bg-red-400/60 cursor-not-allowed flex items-center gap-3 p-2 justify-between dark:text-white font-medium rounded-lg text-sm hover:bg-red-400/60">
           <p> Already in Shopping Cart</p>
           <AddShoppingCartOutlined />
           </button>
@@ -99,7 +99,7 @@ const ShoppingCartBtnProductModal = ({
       ) : (
         <button
           onClick={() => addToCart(productId)}
-          className="flex items-center p-2 gap-3 justify-between text-white border border-red-400 font-medium rounded-lg text-sm hoverEle hover:bg-red-400"
+          className="flex items-center p-2 gap-3 justify-between dark:text-white hover:text-white border border-red-400 font-medium rounded-lg text-sm hoverEle hover:bg-red-400"
         >
           <p>Add to Shop Cart</p>
           <AddShoppingCartOutlined />

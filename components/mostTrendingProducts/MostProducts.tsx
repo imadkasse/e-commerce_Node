@@ -223,7 +223,7 @@ const MostProducts = async () => {
                   {favProduct.includes(product._id) ? (
                     <FavoriteBtn key={product._id} isFavorite={true} />
                   ) : (
-                    <FavoriteBtn key={product._id} isFavorite={false} />
+                    <FavoriteBtn key={product._id} productId={product._id} isFavorite={false} />
                   )}
                   {/* Sold Out */}
                   {!product.availability ? (
@@ -262,7 +262,7 @@ const MostProducts = async () => {
                   </div>
                   <div className="flex justify-center pb-3 gap-2">
                     <span className="text-2xl font-bold text-gray-900 dark:text-white">
-                      {product.price}
+                      ${product.price}
                     </span>
                     <span className="text-sm font-semibold  text-red-900 dark:text-red-600 line-through">
                       {product.newPrice !== 0 ? `$${product.newPrice}` : ""}

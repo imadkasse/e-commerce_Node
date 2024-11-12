@@ -49,6 +49,7 @@ const FavoriteBtn = ({ isFavorite, productId }: Fav) => {
   }, [token, setUser]);
 
   const addProductToFavorites = async (productId: string | undefined) => {
+    console.log(productId);
     if (!token) {
       toast.error("You need to be logged in to add to favorites!", {
         position: "top-center",
@@ -93,8 +94,10 @@ const FavoriteBtn = ({ isFavorite, productId }: Fav) => {
       }
       router.refresh();
     } catch (error) {
-      console.log(error)
-      toast.error("Failed to add to favorites!", {
+      //@ts-ignore
+      console.log(error.response.data.message);
+      //@ts-ignore
+      toast.error(error.response.data.message, {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: true,

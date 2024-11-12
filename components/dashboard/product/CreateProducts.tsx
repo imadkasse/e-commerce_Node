@@ -33,61 +33,55 @@ const CreateProducts = () => {
   const [category, setCategory] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [price, setPrice] = useState<number>();
-  const [rating, setRating] = useState<number>();
-  const [quantity, setQuantity] = useState<number>();
-  const [image, setImage] = useState<File | null>(null);
+  const [price, setPrice] = useState<number>(0);
+  const [rating, setRating] = useState<number>(0);
+  const [quantity, setQuantity] = useState<number>(0);
+  const [image, setImage] = useState<File[] | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handelCreate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    let imageUrl = "";
-    if (image) {
-      const formData = new FormData();
-      formData.append("image", image);
-      console.log("Selected image:", image);
-
-      try {
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/upload`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        // تحقق مما إذا كانت الاستجابة تحتوي على رابط الصورة
-        if (response.data.url) {
-          imageUrl = response.data.url;
-          console.log("Image URL:", imageUrl);
-        } else {
-          console.error("Image URL not found in response");
-          return; // توقف إذا لم يتم العثور على الرابط
-        }
-      } catch (error) {
-        console.error("Error uploading image:", error);
-        return; // أخرج من الدالة إذا كان هناك خطأ
+    const formData = new FormData();
+    if (image && image.length > 0) {
+      for (let i = 0; i < image.length; i++) {
+        formData.append("images", image[i]);
       }
     }
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("rating", rating.toString()); // تأكد من تحويل القيم إلى نصوص
+    formData.append("price", price.toString());
+    formData.append("quantity", quantity.toString());
+    formData.append("category", category);
 
+    setLoading(true);
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/products`, {
-        name: name,
-        description: description,
-        rating: rating,
-        price: price,
-        quantity: quantity,
-        category: category,
-        images: imageUrl,
-      });
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/products`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", // تحديد نوع المحتوى كـ multipart/form-data
+          },
+        }
+      );
+
       handleClick();
       setToggle(false);
       router.refresh();
+      setName("");
+      setDescription("");
+      setCategory("");
+      setName("");
+      setQuantity(0);
+      setPrice(0);
+      setRating(0);
+      setImage(null);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
   if (!token) {
@@ -220,9 +214,11 @@ const CreateProducts = () => {
                     accept="image/*" // تأكد من قبول الصور فقط
                     onChange={(e) => {
                       if (e.target.files) {
-                        setImage(e.target.files[0]); // حفظ الصورة المحددة
+                        const selectedImages = Array.from(e.target.files); // تحويل الملفات إلى مصفوفة
+                        setImage(selectedImages); // تحديث الحالة بالصور المحددة
                       }
                     }}
+                    multiple
                     placeholder="images"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                     required
@@ -243,9 +239,13 @@ const CreateProducts = () => {
 
                 <button
                   type="submit"
-                  className="w-full hoverEle text-white bg-red-400 hover:bg-red-400/60 focus:ring-2 focus:outline-none focus:ring-black font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-400 dark:hover:bg-red-400/60 dark:focus:ring-white"
+                  className={`w-full hoverEle text-white bg-red-400 ${
+                    loading
+                      ? "bg-red-400/60 dark:bg-red-400/60 cursor-not-allowed"
+                      : "hover:bg-red-400/60 dark:hover:bg-red-400/60"
+                  }   font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-400  `}
                 >
-                  Create
+                  {loading ? "Createing Product..." : "Create "}
                 </button>
               </form>
             </div>

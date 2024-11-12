@@ -1,15 +1,16 @@
 "use client";
-import { EditOutlined } from "@mui/icons-material";
+import { Add, CloseOutlined, EditOutlined } from "@mui/icons-material";
 import axios from "axios";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface Product {
   idPro: string;
   namePro?: string;
   pricePro?: number;
   descriptionPro?: string;
-  imagePro?: string;
+  imagePro?: string[];
   categoryPro?: string;
   quantityPro?: number;
   newPricePro?: number;
@@ -32,6 +33,7 @@ const EditProduct: React.FC<Product> = ({
   const router = useRouter();
 
   const [toggle, setToggle] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [newPrice, setNewPrice] = useState<number>(newPricePro || 0);
   const [category, setCategory] = useState<string>(categoryPro || "");
@@ -40,13 +42,31 @@ const EditProduct: React.FC<Product> = ({
   const [price, setPrice] = useState<number>(pricePro || 0);
   const [rating, setRating] = useState<number>(ratingPro || 0);
   const [quantity, setQuantity] = useState<number>(quantityPro || 0);
-  const [image, setImage] = useState<string>(imagePro || "");
+  const [arrImgs, setArrImgs] = useState<string[] | undefined>(imagePro); // url as string
+  const [image, setImage] = useState<File[] | null>();
+
   const [availability, setAvailability] = useState<boolean>(
     availabilityPro || false
   );
 
+ 
+
   const handelUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
+    const formData = new FormData();
+    if (image && image.length > 0) {
+      for (let i = 0; i < image.length; i++) {
+        formData.append("images", image[i]);
+      }
+    }
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("rating", rating.toString()); // تأكد من تحويل القيم إلى نصوص
+    formData.append("price", price.toString());
+    formData.append("quantity", quantity.toString());
+    formData.append("category", category);
+
     try {
       const product = {
         name: name || namePro,
@@ -61,12 +81,14 @@ const EditProduct: React.FC<Product> = ({
       };
       await axios.patch(
         `${process.env.NEXT_PUBLIC_BACK_URL}/api/eco/products/${idPro}`,
-        product
+        formData
       );
       router.refresh();
       setToggle(false);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -192,16 +214,40 @@ const EditProduct: React.FC<Product> = ({
                 </div>
 
                 <div>
-                  <input
-                    type="text"
-                    value={image}
-                    onChange={(e) => {
-                      setImage(e.target.value);
-                    }}
-                    placeholder="images"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                    required
-                  />
+                  <div className="flex justify-between mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                    <label className="flex flex-col w-16 h-16 items-center justify-center  border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 ">
+                      <Add />
+                      <input
+                        type="file"
+                        accept="image/*" // تأكد من قبول الصور فقط
+                        onChange={(e) => {
+                          if (e.target.files) {
+                            const selectedImages = Array.from(e.target.files);
+
+                            setImage(selectedImages);
+                            setArrImgs(selectedImages.map((img) => URL.createObjectURL(img)));
+                          }
+                        }}
+                        className="hidden"
+                        multiple
+                      />
+                    </label>
+
+                    {arrImgs?.map((img, index) => (
+                      <div
+                        key={index}
+                        className="w-16 h-16 p-2 bg-gray-400 rounded-md cursor-pointer relative group transition-transform duration-300 ease-in-out"
+                      >
+                        <Image
+                          src={img}
+                          alt="imgProduct"
+                          width={150}
+                          height={150}
+                          className=" w-full h-full object-cover"
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
                 <div>
@@ -230,9 +276,13 @@ const EditProduct: React.FC<Product> = ({
 
                 <button
                   type="submit"
-                  className="w-full hoverEle text-white bg-red-400 hover:bg-red-400/60 focus:ring-2 focus:outline-none focus:ring-black font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-400 dark:hover:bg-red-400/60 dark:focus:ring-white"
+                  className={`w-full hoverEle text-white bg-red-400 ${
+                    loading
+                      ? "bg-red-400/60 dark:bg-red-400/60 cursor-not-allowed"
+                      : "hover:bg-red-400/60 dark:hover:bg-red-400/60"
+                  }   font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-400  `}
                 >
-                  Update
+                  {loading ? "Updating Product..." : "Update"}
                 </button>
               </form>
             </div>

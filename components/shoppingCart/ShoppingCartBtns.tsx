@@ -114,7 +114,7 @@ const ShoppingCartBtn = ({ id, price }: Props) => {
           </button>
         </div>
         <span className="text-gray-800 dark:text-gray-200 font-bold">
-          {amountPrice} USD
+          {price} USD
         </span>
       </div>
       <button

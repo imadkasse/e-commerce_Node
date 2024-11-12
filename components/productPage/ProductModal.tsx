@@ -45,7 +45,6 @@ const ProductModal: React.FC<Id> = async ({ id }) => {
     `${process.env.BACK_URL}/api/eco/products/${id}`
   );
   const product: Product = data.data.data.data;
-  console.log("img", product.images);
 
   const cookieStore = cookies();
   const token = cookieStore.get("token")?.value;
